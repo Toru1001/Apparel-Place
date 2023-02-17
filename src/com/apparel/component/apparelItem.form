@@ -82,7 +82,7 @@
     <Container class="com.apparel.model.pictureBox" name="pic">
       <Properties>
         <Property name="image" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/com/apparel/items/Screenshot 2023-02-12 112618.png"/>
+          <Image iconType="3" name="/com/apparel/items/bagProducts/Adidas by Stella McCartney  Gym Sack.png"/>
         </Property>
       </Properties>
 

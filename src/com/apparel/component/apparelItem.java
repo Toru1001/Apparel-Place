@@ -74,7 +74,7 @@ public class apparelItem extends javax.swing.JPanel {
         lbItemName.setFont(new java.awt.Font("Inter ExtraBold", 0, 18)); // NOI18N
         lbItemName.setText("ITEM NAME");
 
-        pic.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/items/Screenshot 2023-02-12 112618.png"))); // NOI18N
+        pic.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/items/bagProducts/Adidas by Stella McCartney  Gym Sack.png"))); // NOI18N
 
         lbBrand.setFont(new java.awt.Font("Inter SemiBold", 0, 14)); // NOI18N
         lbBrand.setText("BRAND");

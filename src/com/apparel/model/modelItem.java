@@ -58,7 +58,7 @@ public class modelItem {
     /**
      * @param price the price to set
      */
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
@@ -94,7 +94,7 @@ public class modelItem {
         this.item = item;
         this.itemName = itemName;
         this.description = description;
-        this.price = price;
+        this.price = (int) price;
         this.brandName = brandName;
         this.image = image;
     }
@@ -102,7 +102,7 @@ public class modelItem {
     private int item;
     private String itemName;
     private String description;
-    private double price;
+    private int price;
     private String brandName;
     private Icon image;
     

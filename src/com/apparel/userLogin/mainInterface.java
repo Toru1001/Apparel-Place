@@ -59,10 +59,10 @@ public class mainInterface extends javax.swing.JFrame {
     public void showBagItems(){
         
         int ID = 1;
-        for(int i = 1; i>0; i++){
+        for(int i = 0; i<=15; i++){
             try {
                 
-                login.prep = login.connect.prepareStatement("SELECT * FROM bagproducts where Id = '"+ID+++"'");
+                login.prep = login.connect.prepareStatement("SELECT * FROM bagproducts where Id = '"+i+"'");
                 login.rst = login.prep.executeQuery();
                 
                 while (login.rst.next()){
@@ -85,29 +85,46 @@ public class mainInterface extends javax.swing.JFrame {
         
         int ID = 1;
         for(int i = 0; i<=0; i++){
-            addItem(new modelItem(ID++, "Jacket", "Trendy Nike Jacket", 350, "Nike", new ImageIcon(getClass().getResource("/com/apparel/items/shirt/Nike (Jacket).jpg"))));
-            
-        }   
+            try {
+                login.prep = login.connect.prepareStatement("SELECT * FROM clothesproduct where Id = '"+i+"'");
+                login.rst = login.prep.executeQuery();
+                
+                while (login.rst.next()){
+                    String id = login.rst.getString("Id");
+                    String product = login.rst.getString("product");
+                    String description = login.rst.getString("description");
+                    DecimalFormat df = new DecimalFormat("PHP #,##0.00");
+                    int price = Integer.parseInt(login.rst.getString("price"));
+                    String brand = login.rst.getString("brand");
+                    String img = login.rst.getString("icon");
+                    addItem(new modelItem(ID++, product, description, price, brand, new ImageIcon(getClass().getResource(img))));
+                    
+                }   } catch (SQLException ex) {   
+                Logger.getLogger(mainInterface.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
     public void showFootwearItems (){
          int ID = 1;
           for(int i = 0; i<=0; i++){
-            addItem(new modelItem(ID++, "Boots", "Men Casual/Formal Shoes from Dr. Martens (Chealsea Boots)", 2500, "Dr. Martens", new ImageIcon(getClass().getResource("/com/apparel/items/footwear/dr. martens (chealsea boots).jpg"))));
-            addItem(new modelItem(ID++, "Formal Shoes", "Men Casual/Formal Shoes from Dr. Martens", 2250, "Dr. Martens", new ImageIcon(getClass().getResource("/com/apparel/items/footwear/dr. martens (formal).jpg"))));
-            addItem(new modelItem(ID++, "Green Leather Shoes", "Men Casual/Formal Shoes from Dr. Martens", 2200, "Dr. Martens", new ImageIcon(getClass().getResource("/com/apparel/items/footwear/dr. martens (formal1).jpg"))));
-            addItem(new modelItem(ID++, "Loafers", "Men Casual/Formal Shoes from Dr. Martens", 2150, "Dr. Martens", new ImageIcon(getClass().getResource("/com/apparel/items/footwear/dr. martens (loafers).jpg"))));
-            addItem(new modelItem(ID++, "Black Formal Shoes", "Men Casual/Formal Shoes from Dr. Martens", 2200, "Dr. Martens", new ImageIcon(getClass().getResource("/com/apparel/items/footwear/dr. martens 1.jpg"))));
-            addItem(new modelItem(ID++, "Adidas Sneakers", "Adidas White Sneakers for Men", 1000, "Adidas", new ImageIcon(getClass().getResource("/com/apparel/items/footwear/adidass (sneakers).jpg"))));
-            addItem(new modelItem(ID++, "Casual Sneakers", "Casual White Sneakers from Celine", 950, "Celine", new ImageIcon(getClass().getResource("/com/apparel/items/footwear/celine (sneakers).jpg"))));
-            addItem(new modelItem(ID++, "High Top", "Converse HIgh Top Canvas Shoes", 1750, "Converse", new ImageIcon(getClass().getResource("/com/apparel/items/footwear/Converse (high top sneakers).jpg"))));
-            addItem(new modelItem(ID++, "Nike Sneakers", "High Quality Nike Sneakers", 1500, "Nike", new ImageIcon(getClass().getResource("/com/apparel/items/footwear/nike (sneakers).jpg"))));
-            addItem(new modelItem(ID++, "White Sneakers", "<html><body><p align='justify'>New Arrival Reebok White Sneekers</p></body></html>", 1000, "Reebok", new ImageIcon(getClass().getResource("/com/apparel/items/footwear/reebok (sneakers).jpg"))));
-            addItem(new modelItem(ID++, "Black Training Shoes", "Adidas Unisex Running Shoes", 1200, "Adidas", new ImageIcon(getClass().getResource("/com/apparel/items/footwear/adidas (running).jpg"))));
-            addItem(new modelItem(ID++, "White Training Shoes", "Breathable White Training Shoes", 1550, "Adidas", new ImageIcon(getClass().getResource("/com/apparel/items/footwear/adiddas (running).jpg"))));
-            addItem(new modelItem(ID++, "Running Shoes", "New Balance Sports Shoes for Women", 1500, "New Balance", new ImageIcon(getClass().getResource("/com/apparel/items/footwear/new balance (running).jpg"))));
-            addItem(new modelItem(ID++, "Nike Training Shoes", "Nike Training Shoes for Men", 1250, "Nike", new ImageIcon(getClass().getResource("/com/apparel/items/footwear/nike (running).jpg"))));
-            addItem(new modelItem(ID++, "Nike Shoes", "Black Nike Sports Shoes", 1990, "Nike", new ImageIcon(getClass().getResource("/com/apparel/items/footwear/nike (running1).jpg"))));
+            try {
+                login.prep = login.connect.prepareStatement("SELECT * FROM footwearproducts where Id = '"+i+"'");
+                login.rst = login.prep.executeQuery();
+                
+                while (login.rst.next()){
+                    String id = login.rst.getString("Id");
+                    String product = login.rst.getString("product");
+                    String description = login.rst.getString("description");
+                    DecimalFormat df = new DecimalFormat("PHP #,##0.00");
+                    int price = Integer.parseInt(login.rst.getString("price"));
+                    String brand = login.rst.getString("brand");
+                    String img = login.rst.getString("icon");
+                    addItem(new modelItem(ID++, product, description, price, brand, new ImageIcon(getClass().getResource(img))));
+                    
+                }   } catch (SQLException ex) {   
+                Logger.getLogger(mainInterface.class.getName()).log(Level.SEVERE, null, ex);
+            }
           }  
 }
     
