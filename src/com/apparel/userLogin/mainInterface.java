@@ -84,9 +84,9 @@ public class mainInterface extends javax.swing.JFrame {
     public void showClothesItems(){
         
         int ID = 1;
-        for(int i = 0; i<=0; i++){
+        for(int i = 0; i<=15; i++){
             try {
-                login.prep = login.connect.prepareStatement("SELECT * FROM clothesproduct where Id = '"+i+"'");
+                login.prep = login.connect.prepareStatement("SELECT * FROM clothesproduct where Id = '"+ID+"'");
                 login.rst = login.prep.executeQuery();
                 
                 while (login.rst.next()){
@@ -107,9 +107,32 @@ public class mainInterface extends javax.swing.JFrame {
     
     public void showFootwearItems (){
          int ID = 1;
-          for(int i = 0; i<=0; i++){
+          for(int i = 0; i<=15; i++){
+              
             try {
-                login.prep = login.connect.prepareStatement("SELECT * FROM footwearproducts where Id = '"+i+"'");
+                login.prep = login.connect.prepareStatement("SELECT * FROM footwearproducts where Id = '"+ID+"'");
+                login.rst = login.prep.executeQuery();
+                
+                while (login.rst.next()){
+                    String id = login.rst.getString("Id");
+                    String product = login.rst.getString("product");
+                    String description = login.rst.getString("description");
+                    DecimalFormat df = new DecimalFormat("PHP #,##0.00");
+                    int price = Integer.parseInt(login.rst.getString("price"));
+                    String brand = login.rst.getString("brand");
+                    String img = login.rst.getString("icon");
+                    addItem(new modelItem(ID++, product, description, price, brand, new ImageIcon(getClass().getResource(img))));
+                }   } catch (SQLException ex) {   
+                Logger.getLogger(mainInterface.class.getName()).log(Level.SEVERE, null, ex);
+            }
+          }  
+}
+    void showAccessoryItems(){
+        
+        int ID = 1;
+        for(int i = 0; i<=15; i++){
+            try {
+                login.prep = login.connect.prepareStatement("SELECT * FROM accessoriesproducts where Id = '"+ID+"'");
                 login.rst = login.prep.executeQuery();
                 
                 while (login.rst.next()){
@@ -125,8 +148,8 @@ public class mainInterface extends javax.swing.JFrame {
                 }   } catch (SQLException ex) {   
                 Logger.getLogger(mainInterface.class.getName()).log(Level.SEVERE, null, ex);
             }
-          }  
-}
+        }
+    }
     
         public void uneditted(){
             first_name.setEditable(false);
@@ -1354,7 +1377,8 @@ public class mainInterface extends javax.swing.JFrame {
     }//GEN-LAST:event_shopButtonMouseClicked
 
     private void accessoriesButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accessoriesButtonMouseClicked
-        // TODO add your handling code here:
+        changeCard(items);
+        showAccessoryItems();
     }//GEN-LAST:event_accessoriesButtonMouseClicked
 
     private void bagsButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bagsButtonMouseEntered
@@ -1420,9 +1444,7 @@ public class mainInterface extends javax.swing.JFrame {
         cardPanel.add(Card);
         cardPanel.repaint();
         cardPanel.revalidate();
-                if(Card.isValid()){
-                homeButton.setBackground(new Color(153,0,153));
-                }
+                
     }
     public static void main(String args[]) {
         
