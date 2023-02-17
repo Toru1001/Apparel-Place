@@ -7,11 +7,14 @@ import com.apparel.model.ScrollBar;
 import com.apparel.model.modelItem;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
@@ -56,42 +59,34 @@ public class mainInterface extends javax.swing.JFrame {
     public void showBagItems(){
         
         int ID = 1;
-        for(int i = 0; i<=0; i++){
-            addItem(new modelItem(ID++, "Daily Bag", "Blueberry Canvas Tote Bag", 600, "BlueBerry", new ImageIcon(getClass().getResource("/com/apparel/items/burberry (tote bag).jpg"))));
-            addItem(new modelItem(ID++, "Daily Bag", "Elegant Celine Handbag", 900, "Celine", new ImageIcon(getClass().getResource("/com/apparel/items/celine (handbag).jpg"))));
-            addItem(new modelItem(ID++, "Daily Bag", "Everyday used Nike backpack", 600, "Nike", new ImageIcon(getClass().getResource("/com/apparel/items/Nike (backpack.jpg"))));
-            addItem(new modelItem(ID++, "Daily Bag", "Unisex Crossbody Bag", 150, "North Face", new ImageIcon(getClass().getResource("/com/apparel/items/north face (crossbody bag).jpg"))));
-            addItem(new modelItem(ID++, "Daily Bag", "UNISEX Neutral Color YSL satchel", 900, "Saint Laurent", new ImageIcon(getClass().getResource("/com/apparel/items/Saint Laurent (satchel).jpg"))));
-            addItem(new modelItem(ID++, "Sports Bag", "Nike Sports Bag BLACK", 550, "Nike", new ImageIcon(getClass().getResource("/com/apparel/items/nike (duffel bag_1).jpg"))));
-            addItem(new modelItem(ID++, "Sports Bag", "Nike Sports Bag GREEN", 550, "Nike", new ImageIcon(getClass().getResource("/com/apparel/items/nike (duffel bag0.jpg"))));
-            addItem(new modelItem(ID++, "Sports Bag", "Good quality Sports Bag", 800, "North Face", new ImageIcon(getClass().getResource("/com/apparel/items/north face (sports).jpg"))));
-            addItem(new modelItem(ID++, "Travel Bag", "High Quality Backpack", 1100, "North Face", new ImageIcon(getClass().getResource("/com/apparel/items/north face.jpg"))));
-            addItem(new modelItem(ID++, "Travel Bag", "Waterproof Nike Travel Bag", 800, "Nike", new ImageIcon(getClass().getResource("/com/apparel/items/nike (travel).jpg"))));
-            addItem(new modelItem(ID++, "Travel Bag", "Luggage Travel Bag from Muji", 1825, "Muji", new ImageIcon(getClass().getResource("/com/apparel/items/muji.png"))));
-
-        }
+        for(int i = 1; i>0; i++){
+            try {
+                
+                login.prep = login.connect.prepareStatement("SELECT * FROM bagproducts where Id = '"+ID+++"'");
+                login.rst = login.prep.executeQuery();
+                
+                while (login.rst.next()){
+                   String id = login.rst.getString("Id");
+                   String product = login.rst.getString("product");
+                   String description = login.rst.getString("description");
+                   DecimalFormat df = new DecimalFormat("PHP #,##0.00");
+                   int price = Integer.parseInt(login.rst.getString("price"));
+                   String brand = login.rst.getString("brand");
+                   String img = login.rst.getString("icon");
+                   addItem(new modelItem(ID++, product, description, price, brand, new ImageIcon(getClass().getResource(img))));
+                    
+                }   } catch (SQLException ex) {
+                Logger.getLogger(mainInterface.class.getName()).log(Level.SEVERE, null, ex);
+            }
         
-    }
+    }}
     
     public void showClothesItems(){
         
         int ID = 1;
         for(int i = 0; i<=0; i++){
             addItem(new modelItem(ID++, "Jacket", "Trendy Nike Jacket", 350, "Nike", new ImageIcon(getClass().getResource("/com/apparel/items/shirt/Nike (Jacket).jpg"))));
-            addItem(new modelItem(ID++, "Cardigan", "Ralph Lauren Cardigan", 250, "Ralph Laurel", new ImageIcon(getClass().getResource("/com/apparel/items/shirt/RL (cardigan).jpg"))));
-            addItem(new modelItem(ID++, "Sweater Vest", "<html><body><p align='justify'>Ralph Lauren Knitted Sweater Vest</p></body></html>", 250, "Ralph Laurel", new ImageIcon(getClass().getResource("/com/apparel/items/shirt/RL (sweater vest).jpg"))));
-            addItem(new modelItem(ID++, "Sweater", "<html><body><p align='justify'>Ralph Lauren Unisex Sweater</p></body></html>", 350, "Ralph Laurel", new ImageIcon(getClass().getResource("/com/apparel/items/shirt/RL (SWEATER).jpg"))));
-            addItem(new modelItem(ID++, "Hoodie", "Drawstring Plain Hoodie", 300, "UNIQLO", new ImageIcon(getClass().getResource("/com/apparel/items/shirt/Uniqlo (oversized hoodie).jpg"))));
-            addItem(new modelItem(ID++, "Longsleeve", "Printed Love Sleeve Shirt", 400, "Nike", new ImageIcon(getClass().getResource("/com/apparel/items/shirt/nike (long sleeve).jpg"))));
-            addItem(new modelItem(ID++, "Shirts", "Fitted Shirts for Women", 200, "UNIQLO", new ImageIcon(getClass().getResource("/com/apparel/items/shirt/Uniqlo (fit shirt).jpg"))));
-            addItem(new modelItem(ID++, "Plaid Shirt", "Long Sleeve Plaid Shirt", 300, "UNIQLO", new ImageIcon(getClass().getResource("/com/apparel/items/shirt/uniqlo (flannel.jpg"))));
-            addItem(new modelItem(ID++, "Collared Shirt", "<html><body><p align='justify'>Zara Oversized Long Sleeve Collared Shirt</p></body></html>", 300, "ZARA", new ImageIcon(getClass().getResource("/com/apparel/items/shirt/zara (oversizzed).jpg"))));
-            addItem(new modelItem(ID++, "Polo Shirt", "<html><body><p align='justify'>Green/White Simple Collared Polo Shirt </p></body></html>", 250, "ZARA", new ImageIcon(getClass().getResource("/com/apparel/items/shirt/zara (polo shirts).jpg"))));
-            addItem(new modelItem(ID++, "Sweatpants", "Comfortable Sweatpants from Adidas", 200, "Adidas", new ImageIcon(getClass().getResource("/com/apparel/items/shirt/adiddas (sweatpants).jpg"))));
-            addItem(new modelItem(ID++, "Shorts", "Nike Sports Shorts", 150, "Nike", new ImageIcon(getClass().getResource("/com/apparel/items/shirt/nike (short).jpg"))));
-            addItem(new modelItem(ID++, "Sweatpants", "Plain Grey Nike Sweatpants", 250, "Nike", new ImageIcon(getClass().getResource("/com/apparel/items/shirt/nike (sweatpants).jpg"))));
-            addItem(new modelItem(ID++, "Trouser", "High Quality Uniqlo Trouser", 300, "UNIQLO", new ImageIcon(getClass().getResource("/com/apparel/items/shirt/Uniqlo (trouser).jpg"))));
-            addItem(new modelItem(ID++, "Cargo Pants", "Tendy Cargo Pants", 350, "Zara", new ImageIcon(getClass().getResource("/com/apparel/items/shirt/zara (cargo pants).jpg"))));
+            
         }   
     }
     
@@ -181,49 +176,49 @@ public class mainInterface extends javax.swing.JFrame {
         minimizeButton = new javax.swing.JLabel();
         sidePanel = new keeptoo.KGradientPanel();
         productButton = new javax.swing.JPanel();
-        pictureBox5 = new com.apparel.model.pictureBox();
         jLabel1 = new javax.swing.JLabel();
+        pictureBox5 = new com.apparel.model.pictureBox();
         accountButton = new javax.swing.JPanel();
-        pictureBox7 = new com.apparel.model.pictureBox();
         users_firstname = new javax.swing.JLabel();
+        pictureBox7 = new com.apparel.model.pictureBox();
         homeButton = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         pictureBox6 = new com.apparel.model.pictureBox();
         cartButton = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         pictureBox9 = new com.apparel.model.pictureBox();
-        pictureBox10 = new com.apparel.model.pictureBox();
         jLabel6 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        pictureBox10 = new com.apparel.model.pictureBox();
         cardPanel = new javax.swing.JPanel();
         homepage = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
-        pictureBox12 = new com.apparel.model.pictureBox();
-        pictureBox13 = new com.apparel.model.pictureBox();
         welcomeText = new javax.swing.JLabel();
         shopButton = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        pictureBox14 = new com.apparel.model.pictureBox();
+        pictureBox15 = new com.apparel.model.pictureBox();
         products = new javax.swing.JPanel();
         bagsButton = new javax.swing.JPanel();
-        pictureBox1 = new com.apparel.model.pictureBox();
         jLabel3 = new javax.swing.JLabel();
+        pictureBox1 = new com.apparel.model.pictureBox();
         clothesButton = new javax.swing.JPanel();
-        pictureBox2 = new com.apparel.model.pictureBox();
+        pictureBox12 = new com.apparel.model.pictureBox();
         jLabel4 = new javax.swing.JLabel();
         footwearButton = new javax.swing.JPanel();
-        pictureBox3 = new com.apparel.model.pictureBox();
         jLabel5 = new javax.swing.JLabel();
+        pictureBox2 = new com.apparel.model.pictureBox();
         accessoriesButton = new javax.swing.JPanel();
-        pictureBox11 = new com.apparel.model.pictureBox();
         jLabel10 = new javax.swing.JLabel();
+        pictureBox3 = new com.apparel.model.pictureBox();
         profile = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
-        pictureBox4 = new com.apparel.model.pictureBox();
         logOutButton = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
-        pictureBox8 = new com.apparel.model.pictureBox();
+        pictureBox4 = new com.apparel.model.pictureBox();
+        pictureBox11 = new com.apparel.model.pictureBox();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         first_name = new javax.swing.JTextField();
@@ -244,7 +239,7 @@ public class mainInterface extends javax.swing.JFrame {
         saveEdit = new javax.swing.JButton();
         cart = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        cartItems = new com.apparel.model.PanelItem();
+        panelItem2 = new com.apparel.model.PanelItem();
         items = new javax.swing.JPanel();
         itemScrollBar = new javax.swing.JScrollPane();
         panelItem1 = new com.apparel.model.PanelItem();
@@ -318,24 +313,24 @@ public class mainInterface extends javax.swing.JFrame {
             }
         });
 
-        pictureBox5.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_clothes_50px_1.png"))); // NOI18N
-
         jLabel1.setFont(new java.awt.Font("Inter SemiBold", 0, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
         jLabel1.setText("PRODUCTS");
+
+        pictureBox5.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_clothes_90px_1.png"))); // NOI18N
 
         javax.swing.GroupLayout productButtonLayout = new javax.swing.GroupLayout(productButton);
         productButton.setLayout(productButtonLayout);
         productButtonLayout.setHorizontalGroup(
             productButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, productButtonLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(pictureBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42))
             .addGroup(productButtonLayout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addComponent(jLabel1)
                 .addContainerGap(34, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, productButtonLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pictureBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42))
         );
         productButtonLayout.setVerticalGroup(
             productButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -362,13 +357,13 @@ public class mainInterface extends javax.swing.JFrame {
             }
         });
 
-        pictureBox7.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_Test_Account_60px_1.png"))); // NOI18N
-
         users_firstname.setFont(new java.awt.Font("Inter SemiBold", 0, 14)); // NOI18N
         users_firstname.setForeground(new java.awt.Color(51, 51, 51));
         users_firstname.setText("ACCOUNT");
         users_firstname.setAlignmentX(Component.RIGHT_ALIGNMENT);
         users_firstname.setToolTipText("");
+
+        pictureBox7.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_Test_Account_60px_1.png"))); // NOI18N
 
         javax.swing.GroupLayout accountButtonLayout = new javax.swing.GroupLayout(accountButton);
         accountButton.setLayout(accountButtonLayout);
@@ -376,12 +371,10 @@ public class mainInterface extends javax.swing.JFrame {
             accountButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, accountButtonLayout.createSequentialGroup()
                 .addContainerGap(11, Short.MAX_VALUE)
-                .addGroup(accountButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pictureBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(accountButtonLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(users_firstname)))
-                .addGap(16, 16, 16))
+                .addGroup(accountButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pictureBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(users_firstname))
+                .addGap(20, 20, 20))
         );
         accountButtonLayout.setVerticalGroup(
             accountButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -412,7 +405,6 @@ public class mainInterface extends javax.swing.JFrame {
         jLabel19.setForeground(new java.awt.Color(51, 51, 51));
         jLabel19.setText("HOMEPAGE");
 
-        pictureBox6.setBackground(new java.awt.Color(204, 204, 204));
         pictureBox6.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_home_60px_1.png"))); // NOI18N
 
         javax.swing.GroupLayout homeButtonLayout = new javax.swing.GroupLayout(homeButton);
@@ -420,19 +412,20 @@ public class mainInterface extends javax.swing.JFrame {
         homeButtonLayout.setHorizontalGroup(
             homeButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(homeButtonLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(pictureBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homeButtonLayout.createSequentialGroup()
                 .addContainerGap(28, Short.MAX_VALUE)
-                .addComponent(jLabel19)
-                .addGap(21, 21, 21))
+                .addGroup(homeButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homeButtonLayout.createSequentialGroup()
+                        .addComponent(jLabel19)
+                        .addGap(21, 21, 21))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homeButtonLayout.createSequentialGroup()
+                        .addComponent(pictureBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37))))
         );
         homeButtonLayout.setVerticalGroup(
             homeButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(homeButtonLayout.createSequentialGroup()
-                .addContainerGap(8, Short.MAX_VALUE)
-                .addComponent(pictureBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(pictureBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel19)
                 .addContainerGap())
@@ -470,13 +463,13 @@ public class mainInterface extends javax.swing.JFrame {
         cartButtonLayout.setHorizontalGroup(
             cartButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(cartButtonLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addGroup(cartButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(cartButtonLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel20))
-                    .addComponent(pictureBox9, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addGap(46, 46, 46)
+                .addComponent(jLabel20)
+                .addContainerGap(47, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cartButtonLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pictureBox9, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         cartButtonLayout.setVerticalGroup(
             cartButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -487,8 +480,6 @@ public class mainInterface extends javax.swing.JFrame {
                 .addComponent(jLabel20)
                 .addContainerGap())
         );
-
-        pictureBox10.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/utilities/APPAREL PLACE LOGO(small).png"))); // NOI18N
 
         jLabel6.setFont(new java.awt.Font("Inter ExtraBold", 0, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(51, 51, 51));
@@ -502,27 +493,29 @@ public class mainInterface extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(51, 51, 51));
         jLabel9.setText("PLACE");
 
+        pictureBox10.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/utilities/APPAREL PLACE LOGO(small).png"))); // NOI18N
+
         javax.swing.GroupLayout sidePanelLayout = new javax.swing.GroupLayout(sidePanel);
         sidePanel.setLayout(sidePanelLayout);
         sidePanelLayout.setHorizontalGroup(
             sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sidePanelLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(12, 12, 12)
                 .addComponent(pictureBox10, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel6)
                     .addComponent(jLabel17)
                     .addGroup(sidePanelLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(239, 239, 239)
+                .addGap(215, 215, 215)
                 .addComponent(homeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(productButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(cartButton, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 298, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 322, Short.MAX_VALUE)
                 .addComponent(accountButton, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -544,7 +537,7 @@ public class mainInterface extends javax.swing.JFrame {
                         .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(9, 9, 9))
+                .addGap(14, 14, 14))
         );
 
         getContentPane().add(sidePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 1280, 90));
@@ -556,10 +549,6 @@ public class mainInterface extends javax.swing.JFrame {
         jLabel23.setFont(new java.awt.Font("Inter ExtraLight", 0, 36)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(153, 0, 255));
         jLabel23.setText("WEAR BETTER, LOOK BETTER.");
-
-        pictureBox12.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/City Streetstyle.jpg"))); // NOI18N
-
-        pictureBox13.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/Ultra Light Down.jpg"))); // NOI18N
 
         welcomeText.setFont(new java.awt.Font("Inter ExtraBold", 0, 36)); // NOI18N
         welcomeText.setForeground(new java.awt.Color(153, 0, 204));
@@ -600,6 +589,10 @@ public class mainInterface extends javax.swing.JFrame {
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
+        pictureBox14.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/Ultra Light Down.jpg"))); // NOI18N
+
+        pictureBox15.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/City Streetstyle.jpg"))); // NOI18N
+
         javax.swing.GroupLayout homepageLayout = new javax.swing.GroupLayout(homepage);
         homepage.setLayout(homepageLayout);
         homepageLayout.setHorizontalGroup(
@@ -608,20 +601,19 @@ public class mainInterface extends javax.swing.JFrame {
                 .addGap(389, 389, 389)
                 .addComponent(jLabel23)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homepageLayout.createSequentialGroup()
+            .addGroup(homepageLayout.createSequentialGroup()
                 .addGroup(homepageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homepageLayout.createSequentialGroup()
+                    .addGroup(homepageLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(shopButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(137, 137, 137))
+                        .addGap(143, 143, 143))
                     .addGroup(homepageLayout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addComponent(welcomeText, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)))
-                .addComponent(pictureBox12, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(pictureBox13, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                        .addComponent(welcomeText, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(pictureBox15, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(pictureBox14, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(248, 248, 248))
         );
         homepageLayout.setVerticalGroup(
             homepageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -630,17 +622,17 @@ public class mainInterface extends javax.swing.JFrame {
                 .addComponent(jLabel23)
                 .addGroup(homepageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(homepageLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
-                        .addGroup(homepageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pictureBox12, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(pictureBox13, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(homepageLayout.createSequentialGroup()
                         .addGap(70, 70, 70)
                         .addComponent(welcomeText, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(53, 53, 53)
                         .addComponent(shopButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(48, 48, 48))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homepageLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                        .addGroup(homepageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pictureBox14, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(pictureBox15, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(49, 49, 49))))
         );
 
         cardPanel.add(homepage, "card3");
@@ -664,33 +656,33 @@ public class mainInterface extends javax.swing.JFrame {
             }
         });
 
-        pictureBox1.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_Bag_90px.png"))); // NOI18N
-
         jLabel3.setFont(new java.awt.Font("Inter SemiBold", 0, 36)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(51, 51, 51));
         jLabel3.setText("BAGS");
+
+        pictureBox1.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_Bag_90px.png"))); // NOI18N
 
         javax.swing.GroupLayout bagsButtonLayout = new javax.swing.GroupLayout(bagsButton);
         bagsButton.setLayout(bagsButtonLayout);
         bagsButtonLayout.setHorizontalGroup(
             bagsButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bagsButtonLayout.createSequentialGroup()
-                .addContainerGap(24, Short.MAX_VALUE)
-                .addComponent(pictureBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27))
-            .addGroup(bagsButtonLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jLabel3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE)
+                .addGroup(bagsButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pictureBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bagsButtonLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(13, 13, 13)))
+                .addGap(24, 24, 24))
         );
         bagsButtonLayout.setVerticalGroup(
             bagsButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bagsButtonLayout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(pictureBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         clothesButton.setBackground(new java.awt.Color(204, 204, 204));
@@ -710,7 +702,7 @@ public class mainInterface extends javax.swing.JFrame {
             }
         });
 
-        pictureBox2.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_clothes_90px_1.png"))); // NOI18N
+        pictureBox12.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_clothes_90px_1.png"))); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Inter SemiBold", 0, 30)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(51, 51, 51));
@@ -721,20 +713,22 @@ public class mainInterface extends javax.swing.JFrame {
         clothesButtonLayout.setHorizontalGroup(
             clothesButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(clothesButtonLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(clothesButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pictureBox2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addGap(26, 26, 26)
+                .addComponent(pictureBox12, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, clothesButtonLayout.createSequentialGroup()
+                .addContainerGap(24, Short.MAX_VALUE)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         clothesButtonLayout.setVerticalGroup(
             clothesButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(clothesButtonLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(pictureBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(27, 27, 27)
+                .addComponent(pictureBox12, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         footwearButton.setBackground(new java.awt.Color(204, 204, 204));
@@ -754,33 +748,34 @@ public class mainInterface extends javax.swing.JFrame {
             }
         });
 
-        pictureBox3.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_Trainers_90px_1.png"))); // NOI18N
-
         jLabel5.setFont(new java.awt.Font("Inter SemiBold", 0, 26)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(51, 51, 51));
         jLabel5.setText("FOOTWEAR");
+
+        pictureBox2.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_Trainers_90px_1.png"))); // NOI18N
 
         javax.swing.GroupLayout footwearButtonLayout = new javax.swing.GroupLayout(footwearButton);
         footwearButton.setLayout(footwearButtonLayout);
         footwearButtonLayout.setHorizontalGroup(
             footwearButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(footwearButtonLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLabel5)
+                .addGroup(footwearButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(footwearButtonLayout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel5))
+                    .addGroup(footwearButtonLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(pictureBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(15, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, footwearButtonLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(pictureBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
         );
         footwearButtonLayout.setVerticalGroup(
             footwearButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(footwearButtonLayout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(pictureBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(pictureBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         accessoriesButton.setBackground(new java.awt.Color(204, 204, 204));
@@ -800,40 +795,40 @@ public class mainInterface extends javax.swing.JFrame {
             }
         });
 
-        pictureBox11.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_womens_bow_tie_90px_1.png"))); // NOI18N
-
         jLabel10.setFont(new java.awt.Font("Inter SemiBold", 0, 23)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(51, 51, 51));
         jLabel10.setText("ACCESSORIES");
+
+        pictureBox3.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_womens_bow_tie_90px_1.png"))); // NOI18N
 
         javax.swing.GroupLayout accessoriesButtonLayout = new javax.swing.GroupLayout(accessoriesButton);
         accessoriesButton.setLayout(accessoriesButtonLayout);
         accessoriesButtonLayout.setHorizontalGroup(
             accessoriesButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(accessoriesButtonLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(pictureBox11, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, accessoriesButtonLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, accessoriesButtonLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pictureBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
         );
         accessoriesButtonLayout.setVerticalGroup(
             accessoriesButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(accessoriesButtonLayout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(pictureBox11, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(pictureBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel10)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout productsLayout = new javax.swing.GroupLayout(products);
         products.setLayout(productsLayout);
         productsLayout.setHorizontalGroup(
             productsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(productsLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, productsLayout.createSequentialGroup()
                 .addContainerGap(167, Short.MAX_VALUE)
                 .addComponent(bagsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(83, 83, 83)
@@ -867,8 +862,6 @@ public class mainInterface extends javax.swing.JFrame {
         jLabel22.setForeground(new java.awt.Color(51, 51, 51));
         jLabel22.setText("PROFILE");
 
-        pictureBox4.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_account_80px.png"))); // NOI18N
-
         logOutButton.setBackground(new java.awt.Color(153, 0, 153));
         logOutButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         logOutButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -893,7 +886,7 @@ public class mainInterface extends javax.swing.JFrame {
         jLabel25.setForeground(new java.awt.Color(204, 204, 204));
         jLabel25.setText("LOG - OUT");
 
-        pictureBox8.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_Login_50px.png"))); // NOI18N
+        pictureBox4.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_Login_70px.png"))); // NOI18N
 
         javax.swing.GroupLayout logOutButtonLayout = new javax.swing.GroupLayout(logOutButton);
         logOutButton.setLayout(logOutButtonLayout);
@@ -901,22 +894,24 @@ public class mainInterface extends javax.swing.JFrame {
             logOutButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, logOutButtonLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pictureBox8, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pictureBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel25)
                 .addContainerGap(22, Short.MAX_VALUE))
         );
         logOutButtonLayout.setVerticalGroup(
             logOutButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, logOutButtonLayout.createSequentialGroup()
+            .addGroup(logOutButtonLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(logOutButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, logOutButtonLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(pictureBox8, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(logOutButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(logOutButtonLayout.createSequentialGroup()
+                        .addComponent(pictureBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
+
+        pictureBox11.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_account_80px.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -924,19 +919,17 @@ public class mainInterface extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addComponent(pictureBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pictureBox11, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel22)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 941, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 887, Short.MAX_VALUE)
                 .addComponent(logOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pictureBox4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(logOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
             .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(logOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pictureBox11, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
@@ -1117,17 +1110,17 @@ public class mainInterface extends javax.swing.JFrame {
             profileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(profileLayout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addGap(0, 60, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, profileLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(317, 317, 317))
+                .addGap(262, 262, 262))
         );
         profileLayout.setVerticalGroup(
             profileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(profileLayout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -1137,7 +1130,7 @@ public class mainInterface extends javax.swing.JFrame {
         cart.setBackground(new java.awt.Color(255, 255, 255));
         cart.setForeground(new java.awt.Color(51, 51, 51));
 
-        jScrollPane1.setViewportView(cartItems);
+        jScrollPane1.setViewportView(panelItem2);
 
         javax.swing.GroupLayout cartLayout = new javax.swing.GroupLayout(cart);
         cart.setLayout(cartLayout);
@@ -1243,7 +1236,6 @@ public class mainInterface extends javax.swing.JFrame {
     }//GEN-LAST:event_logOutButtonMouseReleased
 
     private void bagsButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bagsButtonMouseClicked
-        
         changeCard(items);
         showBagItems();
     }//GEN-LAST:event_bagsButtonMouseClicked
@@ -1363,37 +1355,37 @@ public class mainInterface extends javax.swing.JFrame {
     private void clothesButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clothesButtonMouseEntered
         clothesButton.setBackground(new Color (204,153,255));
         jLabel4.setForeground(new Color(255,255,255));
-        pictureBox2.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_clothes_90px.png")));
+        pictureBox12.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_clothes_90px.png")));
     }//GEN-LAST:event_clothesButtonMouseEntered
 
     private void clothesButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clothesButtonMouseExited
         clothesButton.setBackground(new Color (204,204,204));
         jLabel4.setForeground(new Color(51,51,51));
-        pictureBox2.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_clothes_90px_1.png")));
+        pictureBox12.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_clothes_90px_1.png")));
     }//GEN-LAST:event_clothesButtonMouseExited
 
     private void footwearButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_footwearButtonMouseEntered
         footwearButton.setBackground(new Color (204,153,255));
         jLabel5.setForeground(new Color(255,255,255));
-        pictureBox3.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_Trainers_90px.png")));
+        pictureBox2.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_Trainers_90px.png")));
     }//GEN-LAST:event_footwearButtonMouseEntered
 
     private void footwearButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_footwearButtonMouseExited
         footwearButton.setBackground(new Color (204,204,204));
         jLabel5.setForeground(new Color(51,51,51));
-        pictureBox3.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_Trainers_90px_1.png")));
+        pictureBox2.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_Trainers_90px_1.png")));
     }//GEN-LAST:event_footwearButtonMouseExited
 
     private void accessoriesButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accessoriesButtonMouseEntered
         accessoriesButton.setBackground(new Color (204,153,255));
         jLabel10.setForeground(new Color(255,255,255));
-        pictureBox11.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_womens_bow_tie_90px.png")));
+        pictureBox3.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_womens_bow_tie_90px.png")));
     }//GEN-LAST:event_accessoriesButtonMouseEntered
 
     private void accessoriesButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accessoriesButtonMouseExited
         accessoriesButton.setBackground(new Color (204,204,204));
         jLabel10.setForeground(new Color(51,51,51));
-        pictureBox11.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_womens_bow_tie_90px_1.png")));
+        pictureBox3.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_womens_bow_tie_90px_1.png")));
     }//GEN-LAST:event_accessoriesButtonMouseExited
 
     private void logOutButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutButtonMouseEntered
@@ -1450,7 +1442,6 @@ public class mainInterface extends javax.swing.JFrame {
     private javax.swing.JPanel cardPanel;
     private javax.swing.JPanel cart;
     private javax.swing.JPanel cartButton;
-    private com.apparel.model.PanelItem cartItems;
     private javax.swing.JLabel closeButton;
     private javax.swing.JPanel clothesButton;
     private javax.swing.JTextField email_address;
@@ -1491,19 +1482,20 @@ public class mainInterface extends javax.swing.JFrame {
     private javax.swing.JLabel minimizeButton;
     private javax.swing.JTextField mobile_number;
     private com.apparel.model.PanelItem panelItem1;
+    private com.apparel.model.PanelItem panelItem2;
     private javax.swing.JPasswordField passWord;
     private com.apparel.model.pictureBox pictureBox1;
     private com.apparel.model.pictureBox pictureBox10;
     private com.apparel.model.pictureBox pictureBox11;
     private com.apparel.model.pictureBox pictureBox12;
-    private com.apparel.model.pictureBox pictureBox13;
+    private com.apparel.model.pictureBox pictureBox14;
+    private com.apparel.model.pictureBox pictureBox15;
     private com.apparel.model.pictureBox pictureBox2;
     private com.apparel.model.pictureBox pictureBox3;
     private com.apparel.model.pictureBox pictureBox4;
     private com.apparel.model.pictureBox pictureBox5;
     private com.apparel.model.pictureBox pictureBox6;
     private com.apparel.model.pictureBox pictureBox7;
-    private com.apparel.model.pictureBox pictureBox8;
     private com.apparel.model.pictureBox pictureBox9;
     private javax.swing.JPanel productButton;
     private javax.swing.JPanel products;
