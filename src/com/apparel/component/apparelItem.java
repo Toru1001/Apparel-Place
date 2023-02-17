@@ -48,10 +48,10 @@ public class apparelItem extends javax.swing.JPanel {
     public void paint(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(new Color(153, 153, 153));
+        g2.setColor(new Color(204,204,204));
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
         if (selected) {
-            g2.setColor(new Color(153,153,153));
+            g2.setColor(new Color(204,204,204));
             g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 20, 20);
         }
         g2.dispose();
@@ -69,7 +69,7 @@ public class apparelItem extends javax.swing.JPanel {
         lbDescription = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
-        setForeground(new java.awt.Color(153, 153, 153));
+        setForeground(new java.awt.Color(204, 204, 204));
 
         lbItemName.setFont(new java.awt.Font("Inter ExtraBold", 0, 18)); // NOI18N
         lbItemName.setText("ITEM NAME");

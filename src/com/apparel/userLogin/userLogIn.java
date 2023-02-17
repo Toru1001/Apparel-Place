@@ -470,8 +470,9 @@ public class userLogIn extends javax.swing.JFrame {
 
         getContentPane().add(cardPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 480));
 
-        panel1.setkEndColor(new java.awt.Color(255, 0, 204));
-        panel1.setkStartColor(new java.awt.Color(204, 204, 204));
+        panel1.setkEndColor(new java.awt.Color(204, 0, 204));
+        panel1.setkGradientFocus(250);
+        panel1.setkStartColor(new java.awt.Color(207, 159, 255));
 
         closeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/utilities/icons8_close_30px.png"))); // NOI18N
         closeButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
