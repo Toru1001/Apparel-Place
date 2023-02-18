@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 17, 2023 at 10:19 AM
+-- Generation Time: Feb 18, 2023 at 06:45 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -41,9 +41,9 @@ CREATE TABLE `footwearproducts` (
 --
 
 INSERT INTO `footwearproducts` (`Id`, `product`, `description`, `price`, `brand`, `icon`) VALUES
-(1, 'Loafers', 'O\'Lock Loafers ', 3500, 'Fendi', '/com/apparel/items/footwear/Fendi O\'Lock Loafers.png'),
+(1, 'Loafers', 'O\'Lock Loafers ', 3500, 'Fendi', '/com/apparel/items/footwear/Fendi O_Lock Loafers.png'),
 (2, 'Leather Shoes', 'Lace Up Shoes', 3250, 'Gucci', '/com/apparel/items/footwear/Gucci  Lace Up Shoes.png'),
-(3, 'Loafers', 'Men\'s Interlocking G Loafers', 3500, 'Gucci', '/com/apparel/items/footwear/Gucci  Men\'s Interlocking G Loafers.png'),
+(3, 'Loafers', 'Men\'s Interlocking G Loafers', 3500, 'Gucci', '/com/apparel/items/footwear/Gucci  Men_s Interlocking G Loafers.png'),
 (4, 'Formal Shoes', 'MV 22146A Black Men Formal Shoes ', 1750, 'Mario D boro', '/com/apparel/items/footwear/Mario D boro  MV 22146A Black Men Formal Shoes.png'),
 (5, 'Platform Sandals', 'Quilted Nappa Platform Sandals', 2500, 'Prada', '/com/apparel/items/footwear/Prada  Quilted nappa leather platform sandals.png'),
 (6, 'Sneakers', ' Rivalry Low 86 Shoes', 2900, 'Adidas', '/com/apparel/items/footwear/Adidas  Rivalry Low 86 Shoes.png'),

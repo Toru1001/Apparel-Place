@@ -42,6 +42,8 @@ public class apparelItem extends javax.swing.JPanel {
         lbBrand.setText(data.getBrandName());
         DecimalFormat df = new DecimalFormat("PHP #,##0.00");
         lbPrice.setText(df.format(data.getPrice()));
+        lbSize.setText("Size: " + data.getSize());
+        lbQuantity.setText("Quantity: " + data.getQuantity());
     }
 
     @Override
@@ -68,6 +70,8 @@ public class apparelItem extends javax.swing.JPanel {
         lbPrice = new javax.swing.JLabel();
         lbDescription = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        lbSize = new javax.swing.JLabel();
+        lbQuantity = new javax.swing.JLabel();
 
         setForeground(new java.awt.Color(204, 204, 204));
 
@@ -88,14 +92,18 @@ public class apparelItem extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
         jLabel1.setText("BRAND:");
 
+        lbSize.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        lbSize.setForeground(new java.awt.Color(51, 51, 51));
+        lbSize.setText("SIZE");
+
+        lbQuantity.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        lbQuantity.setForeground(new java.awt.Color(51, 51, 51));
+        lbQuantity.setText("0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(pic, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -112,6 +120,18 @@ public class apparelItem extends javax.swing.JPanel {
                             .addComponent(lbItemName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lbBrand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(15, 15, 15))))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lbDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(lbSize, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,8 +147,12 @@ public class apparelItem extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbPrice)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(lbDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbSize)
+                    .addComponent(lbQuantity))
+                .addContainerGap(8, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -139,6 +163,8 @@ public class apparelItem extends javax.swing.JPanel {
     private javax.swing.JLabel lbDescription;
     private javax.swing.JLabel lbItemName;
     private javax.swing.JLabel lbPrice;
+    private javax.swing.JLabel lbQuantity;
+    private javax.swing.JLabel lbSize;
     private com.apparel.model.pictureBox pic;
     // End of variables declaration//GEN-END:variables
 }

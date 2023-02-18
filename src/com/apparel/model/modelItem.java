@@ -7,6 +7,35 @@ import javax.swing.Icon;
 public class modelItem {
 
     /**
+     * @return the size
+     */
+    public String getSize() {
+        return size;
+    }
+
+    /**
+     * @param size the size to set
+     */
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    /**
+     * @return the quality
+     */
+    public String getQuantity() {
+        return quantity;
+    }
+
+    /**
+     * @param quality the quality to set
+     */
+    public void setQuantity(String quality) {
+        this.quantity = quality;
+    }
+   
+    
+    /**
      * @return the item
      */
     public int getItem() {
@@ -58,7 +87,7 @@ public class modelItem {
     /**
      * @param price the price to set
      */
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -89,20 +118,24 @@ public class modelItem {
     public void setImage(Icon image) {
         this.image = image;
     }
+    
 
-    public modelItem(int item, String itemName, String description, double price, String brandName, Icon image) {
+    public modelItem(String size, String quantity,int item, String itemName, String description, double price, String brandName, Icon image) {
         this.item = item;
         this.itemName = itemName;
         this.description = description;
-        this.price = (int) price;
+        this.price = price;
         this.brandName = brandName;
         this.image = image;
+        this.quantity = quantity;
+        this.size = size;
     }
-    
+    private String size;
+    private String quantity;
     private int item;
     private String itemName;
     private String description;
-    private int price;
+    private double price;
     private String brandName;
     private Icon image;
     

@@ -5,6 +5,7 @@ package com.apparel.userLogin;
 import com.apparel.component.apparelItem;
 import com.apparel.model.ScrollBar;
 import com.apparel.model.modelItem;
+import com.apparel.model.selectedItem;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
@@ -12,6 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Icon;
@@ -19,12 +21,23 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.plaf.IconUIResource;
 
 public class mainInterface extends javax.swing.JFrame {
     userLogIn login = new userLogIn();
+    selectedItem select = new selectedItem();
     String next;
+    int xMouse, yMouse;
     
-    void showUser(){
+        public void changeCard(Component Card) { // Changes to selected panel
+        cardPanel.removeAll();
+        cardPanel.add(Card);
+        cardPanel.repaint();
+        cardPanel.revalidate();
+                
+    }
+    
+        void showUser(){    //shows user info to profile and with other components
         login.info(next);
         userid.setText("User Id: " + login.userId);
         first_name.setText(login.firstname);
@@ -34,9 +47,14 @@ public class mainInterface extends javax.swing.JFrame {
         local_address.setText(login.localaddress);
         mobile_number.setText(login.mobilenumber);
         passWord.setText(login.password);
+        users_firstname.setText(login.firstname);
+        users_firstname.setHorizontalAlignment(SwingConstants.LEFT);
+        welcomeText.setText("WELCOME, " + login.firstname.toUpperCase() + "!");
+        itemScrollBar.setVerticalScrollBar(new ScrollBar());
+        cartScrollBar.setVerticalScrollBar(new ScrollBar());
     }
     
-    void updateUser(){
+        void updateUser(){  // Method for updating the users info to database
         
         String userId = userid.getText();
         String upFirstName = first_name.getText();
@@ -56,7 +74,7 @@ public class mainInterface extends javax.swing.JFrame {
         }
     }
     
-    public void showBagItems(){
+        public void showBagItems(){     // displays bag items from database
         
         int ID = 1;
         for(int i = 0; i<=15; i++){
@@ -69,11 +87,10 @@ public class mainInterface extends javax.swing.JFrame {
                    String id = login.rst.getString("Id");
                    String product = login.rst.getString("product");
                    String description = login.rst.getString("description");
-                   DecimalFormat df = new DecimalFormat("PHP #,##0.00");
                    int price = Integer.parseInt(login.rst.getString("price"));
                    String brand = login.rst.getString("brand");
                    String img = login.rst.getString("icon");
-                   addItem(new modelItem(ID++, product, description, price, brand, new ImageIcon(getClass().getResource(img))));
+                   addItem(new modelItem("--","--",ID++, product, description, price, brand, new ImageIcon(getClass().getResource(img))));
                     
                 }   } catch (SQLException ex) {
                 Logger.getLogger(mainInterface.class.getName()).log(Level.SEVERE, null, ex);
@@ -81,7 +98,7 @@ public class mainInterface extends javax.swing.JFrame {
         
     }}
     
-    public void showClothesItems(){
+        public void showClothesItems(){     //  shows clothes item from database
         
         int ID = 1;
         for(int i = 0; i<=15; i++){
@@ -93,11 +110,11 @@ public class mainInterface extends javax.swing.JFrame {
                     String id = login.rst.getString("Id");
                     String product = login.rst.getString("product");
                     String description = login.rst.getString("description");
-                    DecimalFormat df = new DecimalFormat("PHP #,##0.00");
                     int price = Integer.parseInt(login.rst.getString("price"));
                     String brand = login.rst.getString("brand");
                     String img = login.rst.getString("icon");
-                    addItem(new modelItem(ID++, product, description, price, brand, new ImageIcon(getClass().getResource(img))));
+                    System.out.println(brand);
+                    addItem(new modelItem("--","--",ID++, product, description, price, brand, new ImageIcon(getClass().getResource(img))));
                     
                 }   } catch (SQLException ex) { 
                 Logger.getLogger(mainInterface.class.getName()).log(Level.SEVERE, null, ex);
@@ -105,7 +122,7 @@ public class mainInterface extends javax.swing.JFrame {
         }
     }
     
-    public void showFootwearItems (){
+        public void showFootwearItems (){    // shows footwear items from database
          int ID = 1;
           for(int i = 0; i<=15; i++){
               
@@ -121,13 +138,14 @@ public class mainInterface extends javax.swing.JFrame {
                     int price = Integer.parseInt(login.rst.getString("price"));
                     String brand = login.rst.getString("brand");
                     String img = login.rst.getString("icon");
-                    addItem(new modelItem(ID++, product, description, price, brand, new ImageIcon(getClass().getResource(img))));
+                    addItem(new modelItem("--","--",ID++, product, description, price, brand, new ImageIcon(getClass().getResource(img))));
                 }   } catch (SQLException ex) {   
                 Logger.getLogger(mainInterface.class.getName()).log(Level.SEVERE, null, ex);
             }
           }  
 }
-    void showAccessoryItems(){
+        
+        public void showAccessoryItems(){       //  shows accessory item from database
         
         int ID = 1;
         for(int i = 0; i<=15; i++){
@@ -143,15 +161,38 @@ public class mainInterface extends javax.swing.JFrame {
                     int price = Integer.parseInt(login.rst.getString("price"));
                     String brand = login.rst.getString("brand");
                     String img = login.rst.getString("icon");
-                    addItem(new modelItem(ID++, product, description, price, brand, new ImageIcon(getClass().getResource(img))));
+                    addItem(new modelItem("--","--",ID++, product, description, price, brand, new ImageIcon(getClass().getResource(img))));
                     
                 }   } catch (SQLException ex) {   
                 Logger.getLogger(mainInterface.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
+        
+        public void showCart(){     //  displays cart items from database cartitems
+            
+            int ID = 1;
+            try {
+                login.prep = login.connect.prepareStatement("SELECT * FROM cartitems where userEmail = '"+login.email+"'");
+                login.rst = login.prep.executeQuery();
+                
+                while (login.rst.next()){
+                    String size = login.rst.getString("size");
+                    String quantity = login.rst.getString("quantity");
+                    String product = login.rst.getString("product");
+                    String description = login.rst.getString("description");
+                    int price = Integer.parseInt(login.rst.getString("price"));
+                    String brand = login.rst.getString("brand");
+                    String img = login.rst.getString("icon");
+                    addtocartItem(new modelItem(size,quantity,ID++, product, description, price, brand, new ImageIcon(getClass().getResource(img))));
+                }   
+            } catch (SQLException ex) {   
+                Logger.getLogger(mainInterface.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
     
-        public void uneditted(){
+        public void uneditted(){        //  sets JtextField to unedditable from profile
             first_name.setEditable(false);
             last_name.setEditable(false);
             userName.setEditable(false);
@@ -161,7 +202,7 @@ public class mainInterface extends javax.swing.JFrame {
             passWord.setEditable(false);
         }
         
-        public void edittable(){
+        public void edittable(){            // sets JtextField to edittable from profile
             first_name.setEditable(true);
             last_name.setEditable(true);
             userName.setEditable(true);
@@ -170,43 +211,129 @@ public class mainInterface extends javax.swing.JFrame {
             mobile_number.setEditable(true);
             passWord.setEditable(true);
         }
-    
-    public mainInterface() {
-        initComponents();
-        showUser();
-        users_firstname.setText(login.firstname);
-        users_firstname.setHorizontalAlignment(SwingConstants.CENTER);
-        welcomeText.setText("WELCOME, " + login.firstname.toUpperCase() + "!");
-        itemScrollBar.setVerticalScrollBar(new ScrollBar());
-    }
-
-    int xMouse, yMouse;
-    
-    public void clearAllProducts(){
+        
+        public void clearAllProducts(){     //  clears the products that is previously added to the itemPanel
         panelItem1.removeAll();
         panelItem1.repaint();
         panelItem1.revalidate();
+        panelItem2.removeAll();
+        panelItem2.repaint();
+        panelItem2.revalidate();
     }
     
-    public void addItem(modelItem data){
+        public void addItem(modelItem data){        //  method for gaining data that was encapsulated and is used for adding the products to itemPanel
         apparelItem item = new apparelItem();
         item.setData(data);
         item.addMouseListener(new MouseAdapter(){
             @Override
             public void mousePressed(MouseEvent me){
                 if (SwingUtilities.isLeftMouseButton(me)){
-                    System.out.println(data.getDescription());
+                   select.setItemName(data.getItemName());
+                   select.setItemBrand(data.getBrandName());
+                   select.setImg(data.getImage());
+                   select.setItemPrice((int) data.getPrice());
+                   select.setItemDescription(data.getDescription());
+                   select.setItemSize(data.getSize());
+                   select.setItemQuantity(data.getQuantity());
+                   selectedItems();
                 }
             }
         });
-        
         panelItem1.add(item);
         panelItem1.repaint();
         panelItem1.revalidate();
     }
     
+        public void addtocartItem(modelItem data){      //  method for gaining data that was encapsulated and also setting new data that is
+        apparelItem item = new apparelItem();           //  selected and is used for adding the products to add to cart itemPanel
+        item.setData(data);
+        item.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mousePressed(MouseEvent me){
+                if (SwingUtilities.isLeftMouseButton(me)){
+                   select.setItemName(data.getItemName());
+                   select.setItemBrand(data.getBrandName());
+                   select.setImg(data.getImage());
+                   select.setItemPrice((int) data.getPrice());
+                   select.setItemDescription(data.getDescription());
+                   selectedItems();
+                }
+            }
+        });
+        panelItem2.add(item);
+        panelItem2.repaint();
+        panelItem2.revalidate();
+    }
     
+        public void selectedItems(){            // sets the selected data to the side panel of items
+        pic.setImage(select.getImg());
+        lbItemName.setText(select.getItemName());
+        lbBrand.setText(select.getItemBrand());
+        lbDescription.setText(select.getItemDescription());
+        lbPrice.setText("PHP "+ Integer.toString(select.getItemPrice())+".00");
+        items.repaint();
+        items.revalidate();
+    }
     
+        public void findImageLoc(){         //  finds the icon location from the database all_items
+        try {
+            
+            String finderDescription = select.getItemDescription();
+            
+            login.prep = login.connect.prepareStatement("SELECT * FROM all_items WHERE description = '"+ finderDescription +"';");
+            login.rst = login.prep.executeQuery();
+            
+            while (login.rst.next()){
+                String imageLoc = login.rst.getString("icon");
+                select.setFinderLocation(imageLoc);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(mainInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }      
+    }
+        
+        public void totalCartPrice(){
+            ArrayList<Integer> prices = new ArrayList();
+        DecimalFormat df = new DecimalFormat("#, ###");
+        try {
+        login.prep = login.connect.prepareStatement("SELECT * FROM cartitems where userEmail = '"+ login.email +"'");
+         login.rst = login.prep.executeQuery();
+           while(login.rst.next()){
+               int price,next,newPrice;
+               int quantity;
+                price = Integer.parseInt(login.rst.getString("price"));
+                quantity = Integer.parseInt(login.rst.getString("quantity"));
+                price = price * quantity;
+                prices.add(price);
+           }
+           int prevValue;
+           prevValue= prices.get(0);
+           for(int i = 1; i<prices.size();i++){
+               int price1 = prevValue + prices.get(i);
+               int newValue = prevValue;
+               prevValue = price1;
+               totalAmount.setText("PHP " + df.format(price1) + ".00");
+           }
+            
+        } 
+        catch (SQLException ex) {
+            Logger.getLogger(mainInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }
+        
+        
+        
+        
+     
+     
+    
+     public mainInterface() {
+        initComponents();
+        showUser(); // With other components
+        
+    }
+    
+   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -239,6 +366,9 @@ public class mainInterface extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         pictureBox14 = new com.apparel.model.pictureBox();
         pictureBox15 = new com.apparel.model.pictureBox();
+        jLabel15 = new javax.swing.JLabel();
+        pictureBox8 = new com.apparel.model.pictureBox();
+        pictureBox13 = new com.apparel.model.pictureBox();
         products = new javax.swing.JPanel();
         bagsButton = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -278,11 +408,47 @@ public class mainInterface extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         saveEdit = new javax.swing.JButton();
         cart = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        cartScrollBar = new javax.swing.JScrollPane();
         panelItem2 = new com.apparel.model.PanelItem();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        note1 = new javax.swing.JLabel();
+        totalAmount = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        pictureBox17 = new com.apparel.model.pictureBox();
+        note2 = new javax.swing.JLabel();
+        shipoutButton = new javax.swing.JPanel();
+        pictureBox18 = new com.apparel.model.pictureBox();
+        note3 = new javax.swing.JLabel();
+        removeItem = new javax.swing.JPanel();
+        pictureBox19 = new com.apparel.model.pictureBox();
+        note4 = new javax.swing.JLabel();
         items = new javax.swing.JPanel();
         itemScrollBar = new javax.swing.JScrollPane();
         panelItem1 = new com.apparel.model.PanelItem();
+        lbItemName = new javax.swing.JLabel();
+        pic = new com.apparel.model.pictureBox();
+        jLabel16 = new javax.swing.JLabel();
+        lbBrand = new javax.swing.JLabel();
+        lbPrice = new javax.swing.JLabel();
+        lbDescription = new javax.swing.JLabel();
+        extraLarge = new javax.swing.JButton();
+        large = new javax.swing.JButton();
+        small = new javax.swing.JButton();
+        extraSmall = new javax.swing.JButton();
+        size = new javax.swing.JLabel();
+        size38 = new javax.swing.JButton();
+        size39 = new javax.swing.JButton();
+        size40 = new javax.swing.JButton();
+        size41 = new javax.swing.JButton();
+        size42 = new javax.swing.JButton();
+        size43 = new javax.swing.JButton();
+        size37 = new javax.swing.JButton();
+        size1 = new javax.swing.JLabel();
+        lbQuantity = new javax.swing.JTextField();
+        addtoCart = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        pictureBox16 = new com.apparel.model.pictureBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -411,9 +577,9 @@ public class mainInterface extends javax.swing.JFrame {
             accountButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, accountButtonLayout.createSequentialGroup()
                 .addContainerGap(11, Short.MAX_VALUE)
-                .addGroup(accountButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(pictureBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(users_firstname))
+                .addGroup(accountButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pictureBox7, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+                    .addComponent(users_firstname, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(20, 20, 20))
         );
         accountButtonLayout.setVerticalGroup(
@@ -633,6 +799,14 @@ public class mainInterface extends javax.swing.JFrame {
 
         pictureBox15.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/City Streetstyle.jpg"))); // NOI18N
 
+        jLabel15.setFont(new java.awt.Font("Inter Light", 0, 18)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(204, 0, 204));
+        jLabel15.setText("BE YOUR OWN LABEL.");
+
+        pictureBox8.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/download.jpg"))); // NOI18N
+
+        pictureBox13.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/mens clothes.jpg"))); // NOI18N
+
         javax.swing.GroupLayout homepageLayout = new javax.swing.GroupLayout(homepage);
         homepage.setLayout(homepageLayout);
         homepageLayout.setHorizontalGroup(
@@ -644,16 +818,30 @@ public class mainInterface extends javax.swing.JFrame {
             .addGroup(homepageLayout.createSequentialGroup()
                 .addGroup(homepageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(homepageLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(shopButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(143, 143, 143))
-                    .addGroup(homepageLayout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addComponent(welcomeText, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(homepageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(homepageLayout.createSequentialGroup()
+                                .addComponent(welcomeText, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(homepageLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(pictureBox8, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28)
+                                .addComponent(pictureBox13, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(47, 47, 47))))
+                    .addGroup(homepageLayout.createSequentialGroup()
+                        .addGroup(homepageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(homepageLayout.createSequentialGroup()
+                                .addGap(113, 113, 113)
+                                .addComponent(shopButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(homepageLayout.createSequentialGroup()
+                                .addGap(162, 162, 162)
+                                .addComponent(jLabel15)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(pictureBox15, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(pictureBox14, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(248, 248, 248))
+                .addGap(365, 365, 365))
         );
         homepageLayout.setVerticalGroup(
             homepageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -664,8 +852,14 @@ public class mainInterface extends javax.swing.JFrame {
                     .addGroup(homepageLayout.createSequentialGroup()
                         .addGap(70, 70, 70)
                         .addComponent(welcomeText, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53)
+                        .addGap(41, 41, 41)
                         .addComponent(shopButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel15)
+                        .addGap(18, 18, 18)
+                        .addGroup(homepageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(pictureBox8, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                            .addComponent(pictureBox13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homepageLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
@@ -1170,34 +1364,415 @@ public class mainInterface extends javax.swing.JFrame {
         cart.setBackground(new java.awt.Color(255, 255, 255));
         cart.setForeground(new java.awt.Color(51, 51, 51));
 
-        jScrollPane1.setViewportView(panelItem2);
+        cartScrollBar.setViewportView(panelItem2);
+
+        jLabel21.setFont(new java.awt.Font("Inter Medium", 0, 14)); // NOI18N
+        jLabel21.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel21.setText("Total payment of:");
+
+        jLabel24.setFont(new java.awt.Font("Inter Medium", 0, 14)); // NOI18N
+        jLabel24.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel24.setText("Method of payment:");
+
+        note1.setFont(new java.awt.Font("Inter Medium", 0, 10)); // NOI18N
+        note1.setForeground(new java.awt.Color(51, 51, 51));
+        note1.setText("Our Online Apparel only accepts Cash on Delivery payment method.");
+
+        totalAmount.setFont(new java.awt.Font("Inter Medium", 0, 24)); // NOI18N
+        totalAmount.setForeground(new java.awt.Color(51, 51, 51));
+        totalAmount.setText("PHP 0.00");
+
+        jLabel28.setFont(new java.awt.Font("Inter Medium", 0, 18)); // NOI18N
+        jLabel28.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel28.setText("Cash on Delivery");
+
+        pictureBox17.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/utilities/APPAREL PLACE LOGO(small).png"))); // NOI18N
+
+        note2.setFont(new java.awt.Font("Inter Medium", 0, 10)); // NOI18N
+        note2.setForeground(new java.awt.Color(51, 51, 51));
+        note2.setText("Our Online Apparel only accepts Cash on Delivery payment method.");
+
+        shipoutButton.setBackground(new java.awt.Color(153, 0, 153));
+        shipoutButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        shipoutButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                shipoutButtonMouseClicked(evt);
+            }
+        });
+
+        pictureBox18.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_cardboard_box_50px.png"))); // NOI18N
+
+        note3.setFont(new java.awt.Font("Inter SemiBold", 0, 18)); // NOI18N
+        note3.setForeground(new java.awt.Color(255, 255, 255));
+        note3.setText("SHIP OUT");
+        note3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        javax.swing.GroupLayout shipoutButtonLayout = new javax.swing.GroupLayout(shipoutButton);
+        shipoutButton.setLayout(shipoutButtonLayout);
+        shipoutButtonLayout.setHorizontalGroup(
+            shipoutButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(shipoutButtonLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pictureBox18, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(note3, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        shipoutButtonLayout.setVerticalGroup(
+            shipoutButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, shipoutButtonLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pictureBox18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addComponent(note3, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+        );
+
+        removeItem.setBackground(new java.awt.Color(153, 0, 153));
+        removeItem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        removeItem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                removeItemMouseClicked(evt);
+            }
+        });
+
+        pictureBox19.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_delete_50px.png"))); // NOI18N
+
+        note4.setFont(new java.awt.Font("Inter SemiBold", 0, 16)); // NOI18N
+        note4.setForeground(new java.awt.Color(255, 255, 255));
+        note4.setText("REMOVE ITEM");
+
+        javax.swing.GroupLayout removeItemLayout = new javax.swing.GroupLayout(removeItem);
+        removeItem.setLayout(removeItemLayout);
+        removeItemLayout.setHorizontalGroup(
+            removeItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(removeItemLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pictureBox19, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(note4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        removeItemLayout.setVerticalGroup(
+            removeItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(removeItemLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(removeItemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(note4, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                    .addComponent(pictureBox19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout cartLayout = new javax.swing.GroupLayout(cart);
         cart.setLayout(cartLayout);
         cartLayout.setHorizontalGroup(
             cartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(cartLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1274, Short.MAX_VALUE)
+                .addGroup(cartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(cartLayout.createSequentialGroup()
+                        .addGroup(cartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(cartLayout.createSequentialGroup()
+                                .addGap(51, 51, 51)
+                                .addGroup(cartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(removeItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(shipoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 50, Short.MAX_VALUE))
+                            .addGroup(cartLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(cartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(note2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addGroup(cartLayout.createSequentialGroup()
+                                        .addComponent(jLabel24)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cartLayout.createSequentialGroup()
+                                        .addGroup(cartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(note1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, cartLayout.createSequentialGroup()
+                                                .addComponent(jLabel21)
+                                                .addGap(0, 0, Short.MAX_VALUE))
+                                            .addGroup(cartLayout.createSequentialGroup()
+                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addComponent(jLabel28)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(cartLayout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(totalAmount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(cartLayout.createSequentialGroup()
+                        .addGap(69, 69, 69)
+                        .addComponent(pictureBox17, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(cartScrollBar, javax.swing.GroupLayout.PREFERRED_SIZE, 1000, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         cartLayout.setVerticalGroup(
             cartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+            .addComponent(cartScrollBar)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cartLayout.createSequentialGroup()
+                .addContainerGap(24, Short.MAX_VALUE)
+                .addComponent(pictureBox17, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel21)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(totalAmount)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel24)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(note1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47)
+                .addComponent(shipoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(removeItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44)
+                .addComponent(note2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9))
         );
 
         cardPanel.add(cart, "card5");
 
+        items.setBackground(new java.awt.Color(255, 255, 255));
+
         itemScrollBar.setViewportView(panelItem1);
+
+        lbItemName.setFont(new java.awt.Font("Inter ExtraBold", 0, 24)); // NOI18N
+        lbItemName.setText("ITEM NAME");
+
+        jLabel16.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        jLabel16.setText("BRAND:");
+
+        lbBrand.setFont(new java.awt.Font("Inter SemiBold", 0, 18)); // NOI18N
+        lbBrand.setText("BRAND");
+
+        lbPrice.setFont(new java.awt.Font("Inter SemiBold", 0, 24)); // NOI18N
+        lbPrice.setText("PHP 0.00");
+
+        lbDescription.setFont(new java.awt.Font("Inter Medium", 0, 14)); // NOI18N
+        lbDescription.setText("<html><body><p align='justify'>  Description </p></body></html>");
+
+        extraLarge.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        extraLarge.setText("XL");
+        extraLarge.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                extraLargeActionPerformed(evt);
+            }
+        });
+
+        large.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        large.setText("L");
+        large.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                largeActionPerformed(evt);
+            }
+        });
+
+        small.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        small.setText("S");
+        small.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                smallActionPerformed(evt);
+            }
+        });
+
+        extraSmall.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        extraSmall.setText("XS");
+        extraSmall.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                extraSmallActionPerformed(evt);
+            }
+        });
+
+        size.setFont(new java.awt.Font("Inter Medium", 0, 14)); // NOI18N
+        size.setText("Select Size:");
+
+        size38.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        size38.setText("38");
+        size38.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                size38ActionPerformed(evt);
+            }
+        });
+
+        size39.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        size39.setText("39");
+        size39.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                size39ActionPerformed(evt);
+            }
+        });
+
+        size40.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        size40.setText("40");
+        size40.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                size40ActionPerformed(evt);
+            }
+        });
+
+        size41.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        size41.setText("41");
+        size41.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                size41ActionPerformed(evt);
+            }
+        });
+
+        size42.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        size42.setText("42");
+        size42.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                size42ActionPerformed(evt);
+            }
+        });
+
+        size43.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        size43.setText("43");
+        size43.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                size43ActionPerformed(evt);
+            }
+        });
+
+        size37.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        size37.setText("37");
+        size37.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                size37ActionPerformed(evt);
+            }
+        });
+
+        size1.setFont(new java.awt.Font("Inter Medium", 0, 14)); // NOI18N
+        size1.setText("Input Quantity:");
+
+        lbQuantity.setBackground(new java.awt.Color(204, 204, 204));
+        lbQuantity.setFont(new java.awt.Font("Inter Medium", 0, 14)); // NOI18N
+        lbQuantity.setForeground(new java.awt.Color(51, 51, 51));
+        lbQuantity.setText("1");
+
+        addtoCart.setBackground(new java.awt.Color(255, 255, 255));
+        addtoCart.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        addtoCart.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        addtoCart.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addtoCartMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                addtoCartMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                addtoCartMouseExited(evt);
+            }
+        });
+        addtoCart.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel18.setFont(new java.awt.Font("Inter Medium", 0, 14)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel18.setText("Add to Cart");
+        addtoCart.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, -1, -1));
+
+        pictureBox16.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_Shopping_Cart_60px_1.png"))); // NOI18N
+        addtoCart.add(pictureBox16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 40, 40));
 
         javax.swing.GroupLayout itemsLayout = new javax.swing.GroupLayout(items);
         items.setLayout(itemsLayout);
         itemsLayout.setHorizontalGroup(
             itemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(itemScrollBar, javax.swing.GroupLayout.DEFAULT_SIZE, 1280, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, itemsLayout.createSequentialGroup()
+                .addGroup(itemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(itemsLayout.createSequentialGroup()
+                        .addGroup(itemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(itemsLayout.createSequentialGroup()
+                                .addGap(71, 71, 71)
+                                .addComponent(pic, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(itemsLayout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addGroup(itemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(itemsLayout.createSequentialGroup()
+                                        .addComponent(size42, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(size43, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(itemsLayout.createSequentialGroup()
+                                        .addComponent(size1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(lbQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(itemsLayout.createSequentialGroup()
+                                        .addComponent(size37, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(size38, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(size39, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(size40, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(size41, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(addtoCart, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, itemsLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(itemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, itemsLayout.createSequentialGroup()
+                                .addComponent(extraLarge, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(large, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(small, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(extraSmall, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(33, 33, 33))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, itemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lbItemName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lbDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(size, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, itemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel16)
+                                    .addGroup(itemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(lbPrice, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
+                                        .addComponent(lbBrand, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(itemScrollBar, javax.swing.GroupLayout.PREFERRED_SIZE, 872, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         itemsLayout.setVerticalGroup(
             itemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(itemScrollBar, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+            .addComponent(itemScrollBar)
+            .addGroup(itemsLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(lbItemName)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pic, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(jLabel16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbBrand)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(size)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(itemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(extraLarge, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(large, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(small, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(extraSmall, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(itemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(size38, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(size39, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(size40, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(size41, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(size37, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(itemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(size43, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(size42, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(itemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(size1)
+                    .addComponent(lbQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(addtoCart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         cardPanel.add(items, "card6");
@@ -1278,16 +1853,52 @@ public class mainInterface extends javax.swing.JFrame {
     private void bagsButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bagsButtonMouseClicked
         changeCard(items);
         showBagItems();
+        size.setVisible(false);
+        extraLarge.setVisible(false);
+        large.setVisible(false);
+        small.setVisible(false);
+        extraSmall.setVisible(false);
+        size37.setVisible(false);
+        size38.setVisible(false);
+        size39.setVisible(false);
+        size40.setVisible(false);
+        size41.setVisible(false);
+        size42.setVisible(false);
+        size43.setVisible(false);
     }//GEN-LAST:event_bagsButtonMouseClicked
 
     private void clothesButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clothesButtonMouseClicked
         changeCard(items);
         showClothesItems();
+        size.setVisible(true);
+        extraLarge.setVisible(true);
+        large.setVisible(true);
+        small.setVisible(true);
+        extraSmall.setVisible(true);
+        size37.setVisible(false);
+        size38.setVisible(false);
+        size39.setVisible(false);
+        size40.setVisible(false);
+        size41.setVisible(false);
+        size42.setVisible(false);
+        size43.setVisible(false);
     }//GEN-LAST:event_clothesButtonMouseClicked
 
     private void footwearButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_footwearButtonMouseClicked
         changeCard(items);
         showFootwearItems();
+        size.setVisible(true);
+        extraLarge.setVisible(false);
+        large.setVisible(false);
+        small.setVisible(false);
+        extraSmall.setVisible(false);
+        size37.setVisible(true);
+        size38.setVisible(true);
+        size39.setVisible(true);
+        size40.setVisible(true);
+        size41.setVisible(true);
+        size42.setVisible(true);
+        size43.setVisible(true);
     }//GEN-LAST:event_footwearButtonMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -1316,6 +1927,11 @@ public class mainInterface extends javax.swing.JFrame {
     }//GEN-LAST:event_productButtonMouseExited
 
     private void cartButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cartButtonMouseClicked
+        clearAllProducts();
+        note1.setText("<html><body><p align='justify'>Note: Our Online Apparel only accepts Cash on Delivery payment method.</p></body></html>");
+        note2.setText("<html><body><p align='justify'>Note: Make sure your Contact Details on your Profile is correct and up to date before shipping out our items.</p></body></html>");
+        totalCartPrice();
+        showCart();
         changeCard(cart);
     }//GEN-LAST:event_cartButtonMouseClicked
 
@@ -1379,6 +1995,18 @@ public class mainInterface extends javax.swing.JFrame {
     private void accessoriesButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accessoriesButtonMouseClicked
         changeCard(items);
         showAccessoryItems();
+        size.setVisible(false);
+        extraLarge.setVisible(false);
+        large.setVisible(false);
+        small.setVisible(false);
+        extraSmall.setVisible(false);
+        size37.setVisible(false);
+        size38.setVisible(false);
+        size39.setVisible(false);
+        size40.setVisible(false);
+        size41.setVisible(false);
+        size42.setVisible(false);
+        size43.setVisible(false);
     }//GEN-LAST:event_accessoriesButtonMouseClicked
 
     private void bagsButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bagsButtonMouseEntered
@@ -1437,15 +2065,121 @@ public class mainInterface extends javax.swing.JFrame {
         logOutButton.setBackground(new Color(153,0,153));
     }//GEN-LAST:event_logOutButtonMouseExited
 
+    private void extraLargeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_extraLargeActionPerformed
+        select.setItemSize("XL");
+        size.setText("Select Size: " + select.getItemSize());
+    }//GEN-LAST:event_extraLargeActionPerformed
+
+    private void largeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_largeActionPerformed
+         select.setItemSize("L");
+         size.setText("Select Size: " + select.getItemSize());
+    }//GEN-LAST:event_largeActionPerformed
+
+    private void smallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_smallActionPerformed
+         select.setItemSize("S");
+         size.setText("Select Size: " + select.getItemSize());
+    }//GEN-LAST:event_smallActionPerformed
+
+    private void extraSmallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_extraSmallActionPerformed
+         select.setItemSize("XS");
+         size.setText("Select Size: " + select.getItemSize());
+    }//GEN-LAST:event_extraSmallActionPerformed
+
+    private void size38ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_size38ActionPerformed
+        select.setItemSize("38");
+         size.setText("Select Size: " + select.getItemSize());
+    }//GEN-LAST:event_size38ActionPerformed
+
+    private void size39ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_size39ActionPerformed
+        select.setItemSize("39");
+         size.setText("Select Size: " + select.getItemSize());
+    }//GEN-LAST:event_size39ActionPerformed
+
+    private void size40ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_size40ActionPerformed
+        select.setItemSize("40");
+         size.setText("Select Size: " + select.getItemSize());
+    }//GEN-LAST:event_size40ActionPerformed
+
+    private void size41ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_size41ActionPerformed
+        select.setItemSize("41");
+         size.setText("Select Size: " + select.getItemSize());
+    }//GEN-LAST:event_size41ActionPerformed
+
+    private void size42ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_size42ActionPerformed
+        select.setItemSize("42");
+         size.setText("Select Size: " + select.getItemSize());
+    }//GEN-LAST:event_size42ActionPerformed
+
+    private void size43ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_size43ActionPerformed
+        select.setItemSize("43");
+         size.setText("Select Size: " + select.getItemSize());
+    }//GEN-LAST:event_size43ActionPerformed
+
+    private void size37ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_size37ActionPerformed
+        select.setItemSize("37");
+         size.setText("Select Size: " + select.getItemSize());
+    }//GEN-LAST:event_size37ActionPerformed
+
+    private void addtoCartMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addtoCartMouseEntered
+        addtoCart.setBackground(new Color(204,153,255));
+        jLabel18.setForeground(new Color(255,255,255));
+        pictureBox16.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_Shopping_Cart_60px.png")));
+    }//GEN-LAST:event_addtoCartMouseEntered
+
+    private void addtoCartMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addtoCartMouseExited
+        addtoCart.setBackground(new Color(204,204,255));
+        jLabel18.setForeground(new Color(51,51,51));
+        pictureBox16.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_Shopping_Cart_60px_1.png")));
+    }//GEN-LAST:event_addtoCartMouseExited
+
+    private void addtoCartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addtoCartMouseClicked
+        select.setItemQuantity(lbQuantity.getText());
+        findImageLoc();
+        int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to add this item to cart?", "Apparel Place" ,JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+        
+        try {
+            
+            login.prep = login.connect.prepareStatement("INSERT INTO cartitems(size,quantity,product,description,price,brand,icon,userEmail) VALUES(?,?,?,?,?,?,?,?)");
+            login.prep.setString(1, select.getItemSize());
+            login.prep.setString(2, select.getItemQuantity());
+            login.prep.setString(3, select.getItemName());
+            login.prep.setString(4, select.getItemDescription());
+            login.prep.setString(5, Integer.toString(select.getItemPrice()));
+            login.prep.setString(6, select.getItemBrand());
+            login.prep.setString(7, select.getFinderLocation());
+            login.prep.setString(8, login.email);
+            if(input == 0){
+            login.prep.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(userLogIn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_addtoCartMouseClicked
+
+    private void removeItemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeItemMouseClicked
+        int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to remove this item? " + select.getItemName(), "Apparel Place" ,JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+        try {
+            login.prep = login.connect.prepareStatement("DELETE FROM cartitems WHERE description = '"+ select.getItemDescription() +"' AND userEmail = '"+ login.email +"';");
+            if(input == 0){
+                login.prep.executeUpdate();
+                totalCartPrice();
+                clearAllProducts();
+                showCart();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(mainInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }//GEN-LAST:event_removeItemMouseClicked
+
+    private void shipoutButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shipoutButtonMouseClicked
+        
+    }//GEN-LAST:event_shipoutButtonMouseClicked
+
    
     
-    public void changeCard(Component Card) {
-        cardPanel.removeAll();
-        cardPanel.add(Card);
-        cardPanel.repaint();
-        cardPanel.revalidate();
-                
-    }
+    
     public static void main(String args[]) {
         
         try {
@@ -1477,13 +2211,17 @@ public class mainInterface extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel accessoriesButton;
     private javax.swing.JPanel accountButton;
+    private javax.swing.JPanel addtoCart;
     private javax.swing.JPanel bagsButton;
     private javax.swing.JPanel cardPanel;
     private javax.swing.JPanel cart;
     private javax.swing.JPanel cartButton;
+    private javax.swing.JScrollPane cartScrollBar;
     private javax.swing.JLabel closeButton;
     private javax.swing.JPanel clothesButton;
     private javax.swing.JTextField email_address;
+    private javax.swing.JButton extraLarge;
+    private javax.swing.JButton extraSmall;
     private javax.swing.JTextField first_name;
     private javax.swing.JPanel footwearButton;
     private javax.swing.JPanel homeButton;
@@ -1497,13 +2235,19 @@ public class mainInterface extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1513,36 +2257,65 @@ public class mainInterface extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jlabel;
+    private javax.swing.JButton large;
     private javax.swing.JTextField last_name;
+    private javax.swing.JLabel lbBrand;
+    private javax.swing.JLabel lbDescription;
+    private javax.swing.JLabel lbItemName;
+    private javax.swing.JLabel lbPrice;
+    private javax.swing.JTextField lbQuantity;
     private javax.swing.JTextField local_address;
     private javax.swing.JPanel logOutButton;
     private javax.swing.JLabel minimizeButton;
     private javax.swing.JTextField mobile_number;
+    private javax.swing.JLabel note1;
+    private javax.swing.JLabel note2;
+    private javax.swing.JLabel note3;
+    private javax.swing.JLabel note4;
     private com.apparel.model.PanelItem panelItem1;
     private com.apparel.model.PanelItem panelItem2;
     private javax.swing.JPasswordField passWord;
+    private com.apparel.model.pictureBox pic;
     private com.apparel.model.pictureBox pictureBox1;
     private com.apparel.model.pictureBox pictureBox10;
     private com.apparel.model.pictureBox pictureBox11;
     private com.apparel.model.pictureBox pictureBox12;
+    private com.apparel.model.pictureBox pictureBox13;
     private com.apparel.model.pictureBox pictureBox14;
     private com.apparel.model.pictureBox pictureBox15;
+    private com.apparel.model.pictureBox pictureBox16;
+    private com.apparel.model.pictureBox pictureBox17;
+    private com.apparel.model.pictureBox pictureBox18;
+    private com.apparel.model.pictureBox pictureBox19;
     private com.apparel.model.pictureBox pictureBox2;
     private com.apparel.model.pictureBox pictureBox3;
     private com.apparel.model.pictureBox pictureBox4;
     private com.apparel.model.pictureBox pictureBox5;
     private com.apparel.model.pictureBox pictureBox6;
     private com.apparel.model.pictureBox pictureBox7;
+    private com.apparel.model.pictureBox pictureBox8;
     private com.apparel.model.pictureBox pictureBox9;
     private javax.swing.JPanel productButton;
     private javax.swing.JPanel products;
     private javax.swing.JPanel profile;
+    private javax.swing.JPanel removeItem;
     private javax.swing.JButton saveEdit;
+    private javax.swing.JPanel shipoutButton;
     private javax.swing.JPanel shopButton;
     private keeptoo.KGradientPanel sidePanel;
+    private javax.swing.JLabel size;
+    private javax.swing.JLabel size1;
+    private javax.swing.JButton size37;
+    private javax.swing.JButton size38;
+    private javax.swing.JButton size39;
+    private javax.swing.JButton size40;
+    private javax.swing.JButton size41;
+    private javax.swing.JButton size42;
+    private javax.swing.JButton size43;
+    private javax.swing.JButton small;
     private javax.swing.JPanel titlePanel;
+    private javax.swing.JLabel totalAmount;
     private javax.swing.JTextField userName;
     private javax.swing.JLabel userid;
     private javax.swing.JLabel users_firstname;
