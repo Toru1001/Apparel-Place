@@ -53,7 +53,7 @@ public class apparelItem extends javax.swing.JPanel {
         g2.setColor(new Color(204,204,204));
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
         if (selected) {
-            g2.setColor(new Color(204,204,204));
+            g2.setColor(new Color(153,0,153));
             g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 20, 20);
         }
         g2.dispose();
@@ -73,7 +73,7 @@ public class apparelItem extends javax.swing.JPanel {
         lbSize = new javax.swing.JLabel();
         lbQuantity = new javax.swing.JLabel();
 
-        setForeground(new java.awt.Color(204, 204, 204));
+        setForeground(new java.awt.Color(153, 0, 153));
 
         lbItemName.setFont(new java.awt.Font("Inter ExtraBold", 0, 18)); // NOI18N
         lbItemName.setText("ITEM NAME");

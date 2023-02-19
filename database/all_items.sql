@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 18, 2023 at 11:50 AM
+-- Generation Time: Feb 19, 2023 at 07:40 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -43,7 +43,6 @@ INSERT INTO `all_items` (`product`, `description`, `price`, `brand`, `icon`) VAL
 ('Hoodies', 'Poison Apple Hood', 950, '99 Percentis', '/com/apparel/items/shirt/99.jpg'),
 ('Sweater', 'Plant Flea Market L/S', 850, 'Nike x Cactus', '/com/apparel/items/shirt/Nike x Cactus Plant Flea Market  T-shirt.jpeg'),
 ('Jacket', 'Windrunner Jacket', 900, 'Nike x Stussy', '/com/apparel/items/shirt/Nike x Stussy Windrunner Jacket.png'),
-('Hoodies', 'Women\'s French Circa 96', 950, 'Nike', '/com/apparel/items/shirt/Nike Sportswear Circa 96 Women_s French Terry Hoodies.png'),
 ('Hoodies', 'Ron Bass UO Crew Neck Sweatshirt', 450, 'Urban Outfitters', '/com/apparel/items/shirt/Ron Bass UO Exclusive Love Icon Crew Neck Sweatshirt.png'),
 ('Cargo Pants', 'Cotton Linen Cargo Pants', 750, 'Louis Vuitton', '/com/apparel/items/shirt/LV Cotton Linen Cargo Pants.png'),
 ('Dart Pants', 'Mini Dot Dart Pants', 650, 'Louis Vuitton', '/com/apparel/items/shirt/LV Mini Dot Dart Pants.png'),
@@ -53,7 +52,6 @@ INSERT INTO `all_items` (`product`, `description`, `price`, `brand`, `icon`) VAL
 ('T-Shirt', 'Monogram Jet Ski Self-Tie T-Shirt', 250, 'Louis Vuitton', '/com/apparel/items/shirt/LV Monogram Jet Ski Self-Tie T-Shirt.png'),
 ('Denim Shirt', 'Short-Sleeved Denim Shirt', 350, 'Louis Vuitton', '/com/apparel/items/shirt/LV SHORT-SLEEVED DENIM SHIRT.png'),
 ('Basketball T-Shirt', 'Max90 Basketball Shirt', 350, 'Nike', '/com/apparel/items/shirt/Nike Max90 Basketball T-Shirt.png'),
-('Dri-FIT Shirt', 'Yoga Dri-FIT Luxe', 300, 'Nike', '/com/apparel/items/shirt/Nike Sportswear Circa 96 Women_s French Terry Hoodies.png'),
 ('Loafers', 'O\'Lock Loafers ', 3500, 'Fendi', '/com/apparel/items/footwear/Fendi O_Lock Loafers.png'),
 ('Leather Shoes', 'Lace Up Shoes', 3250, 'Gucci', '/com/apparel/items/footwear/Gucci  Lace Up Shoes.png'),
 ('Loafers', 'Men\'s Interlocking G Loafers', 3500, 'Gucci', '/com/apparel/items/footwear/Gucci  Men_s Interlocking G Loafers.png'),
@@ -86,7 +84,10 @@ INSERT INTO `all_items` (`product`, `description`, `price`, `brand`, `icon`) VAL
 ('Beanie ', 'Rib-knit Cotton Beanie', 250, 'H&M', '/com/apparel/items/accessories/H_M  Rib-knit Cotton Beanie.png'),
 ('Eyeglasses', 'Round Frame Metal Sunglasses', 350, 'Uniqlo', '/com/apparel/items/accessories/Uniqlo  Round Frame Metal Sunglasses.png'),
 ('Hat', 'UV Protection Hat', 300, 'Uniqlo', '/com/apparel/items/accessories/Uniqlo UV Protection Hat.png'),
-('Earrings', 'Resin Flower Earrings', 250, 'Zara', '/com/apparel/items/accessories/Zara RESIN FLOWER EARRINGS.jpg');
+('Earrings', 'Resin Flower Earrings', 250, 'Zara', '/com/apparel/items/accessories/Zara RESIN FLOWER EARRINGS.jpg'),
+('Loafers', 'O Lock Loafers ', 3500, 'Fendi', '/com/apparel/items/footwear/Fendi O_Lock Loafers.png'),
+('Loafers', 'Mens Interlocking G Loafers', 3500, 'Gucci', '/com/apparel/items/footwear/Gucci  Men_s Interlocking G Loafers.png'),
+('Hoodies', 'Womens French Circa 96', 950, 'Nike', '/com/apparel/items/shirt/Nike Sportswear Circa 96 Women_s French Terry Hoodies.png');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
