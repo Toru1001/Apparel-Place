@@ -2,12 +2,15 @@
 package com.apparel.userLogin;
 
 import com.apparel.model.modelItem;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.Color;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 
 
@@ -32,6 +35,7 @@ public class FlashScreen extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         flashLogo = new javax.swing.JLabel();
+        loadingText = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -39,7 +43,7 @@ public class FlashScreen extends javax.swing.JFrame {
         setUndecorated(true);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        getContentPane().add(progressBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 460, 800, 10));
+        getContentPane().add(progressBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 440, 290, 20));
 
         jLabel2.setFont(new java.awt.Font("Jokerman", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(204, 204, 204));
@@ -58,6 +62,10 @@ public class FlashScreen extends javax.swing.JFrame {
 
         flashLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/utilities/APPAREL PLACE LOGO(small).png"))); // NOI18N
         getContentPane().add(flashLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 60, 200, 180));
+
+        loadingText.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        loadingText.setForeground(new java.awt.Color(51, 51, 51));
+        getContentPane().add(loadingText, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, 240, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/utilities/Asset 2.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -86,9 +94,12 @@ public class FlashScreen extends javax.swing.JFrame {
         for (int i = 0; i <= 100; i++) {
             try {
                 Random random = new Random();
-                int number = random.nextInt(20) + 1;
+                int number = random.nextInt(30) + 1;
                 Thread.sleep(number);
                 FS.progressBar.setValue(i);
+                if(i <=100){
+                    loadingText.setText("Loading in progress... " + i + "%");
+                }
             } catch (InterruptedException ex) {
                 System.out.println(ex);
             }
@@ -96,35 +107,13 @@ public class FlashScreen extends javax.swing.JFrame {
         new userLogIn().setVisible(true);
         FS.dispose();
     }
-    /**
-     * @param args the command line arguments
-     */
+   
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FlashScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FlashScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FlashScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            UIManager.setLookAndFeel(new FlatMacLightLaf());
+        } catch (UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FlashScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
        progressBarAction();
         
     }
@@ -135,6 +124,7 @@ public class FlashScreen extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private static javax.swing.JLabel loadingText;
     private javax.swing.JProgressBar progressBar;
     // End of variables declaration//GEN-END:variables
 }

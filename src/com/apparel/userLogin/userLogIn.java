@@ -2,6 +2,8 @@ package com.apparel.userLogin;
 
 
 import com.apparel.model.userInfo;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
@@ -9,6 +11,8 @@ import javax.swing.JOptionPane;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class userLogIn extends javax.swing.JFrame {
 
@@ -141,7 +145,6 @@ public class userLogIn extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setName("frame"); // NOI18N
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(719, 480));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         cardPanel.setLayout(new java.awt.CardLayout());
@@ -150,10 +153,12 @@ public class userLogIn extends javax.swing.JFrame {
         logIn.setPreferredSize(new java.awt.Dimension(350, 450));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(51, 51, 51));
         jLabel1.setText("Username:");
 
         usernameField.setBackground(new java.awt.Color(204, 204, 204));
         usernameField.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        usernameField.setForeground(new java.awt.Color(51, 51, 51));
         usernameField.setText("Input Username/Email");
         usernameField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -170,10 +175,12 @@ public class userLogIn extends javax.swing.JFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(51, 51, 51));
         jLabel2.setText("Password:");
 
         userPassField.setBackground(new java.awt.Color(204, 204, 204));
         userPassField.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        userPassField.setForeground(new java.awt.Color(51, 51, 51));
         userPassField.setText("password");
         userPassField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -189,7 +196,9 @@ public class userLogIn extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
+        jButton1.setBackground(new java.awt.Color(255, 51, 255));
+        jButton1.setFont(new java.awt.Font("Inter SemiBold", 0, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Log - in");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -200,9 +209,11 @@ public class userLogIn extends javax.swing.JFrame {
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/utilities/icons8_user_80px.png"))); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Segoe UI Black", 0, 24)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(51, 51, 51));
         jLabel4.setText("WELCOME!");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(51, 51, 51));
         jLabel5.setText("Don't have an account?");
         jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
 
@@ -264,7 +275,7 @@ public class userLogIn extends javax.swing.JFrame {
         logInLayout.setVerticalGroup(
             logInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(logInLayout.createSequentialGroup()
-                .addContainerGap(54, Short.MAX_VALUE)
+                .addContainerGap(56, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
@@ -280,9 +291,9 @@ public class userLogIn extends javax.swing.JFrame {
                 .addComponent(userPassField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
                 .addComponent(showPassword)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addGap(48, 48, 48)
+                .addGap(36, 36, 36)
                 .addGroup(logInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(registerButton))
@@ -300,39 +311,51 @@ public class userLogIn extends javax.swing.JFrame {
         jLabel11.setText("USER | SIGN - UP");
 
         jLabel7.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(51, 51, 51));
         jLabel7.setText("First Name:");
 
         firstNameField.setBackground(new java.awt.Color(204, 204, 204));
         firstNameField.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        firstNameField.setForeground(new java.awt.Color(51, 51, 51));
 
         jLabel8.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(51, 51, 51));
         jLabel8.setText("Username:");
 
         newUserField.setBackground(new java.awt.Color(204, 204, 204));
         newUserField.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        newUserField.setForeground(new java.awt.Color(51, 51, 51));
 
         jLabel9.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(51, 51, 51));
         jLabel9.setText("Email Address:");
 
         localAddressField.setBackground(new java.awt.Color(204, 204, 204));
         localAddressField.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        localAddressField.setForeground(new java.awt.Color(51, 51, 51));
 
         jLabel10.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(51, 51, 51));
         jLabel10.setText("Local Address:");
 
         emailField.setBackground(new java.awt.Color(204, 204, 204));
         emailField.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        emailField.setForeground(new java.awt.Color(51, 51, 51));
 
         mobileNumberField.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        mobileNumberField.setForeground(new java.awt.Color(51, 51, 51));
         mobileNumberField.setText("Mobile Number:");
 
         localAddressField1.setBackground(new java.awt.Color(204, 204, 204));
         localAddressField1.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        localAddressField1.setForeground(new java.awt.Color(51, 51, 51));
 
         mobileNumberField1.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        mobileNumberField1.setForeground(new java.awt.Color(51, 51, 51));
         mobileNumberField1.setText("Type Password:");
 
         mobileNumberField2.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        mobileNumberField2.setForeground(new java.awt.Color(51, 51, 51));
         mobileNumberField2.setText("Re-type Password:");
 
         signUpButton.setBackground(new java.awt.Color(204, 204, 204));
@@ -346,10 +369,12 @@ public class userLogIn extends javax.swing.JFrame {
         });
 
         jLabel12.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(51, 51, 51));
         jLabel12.setText("Last Name:");
 
         lastNameField.setBackground(new java.awt.Color(204, 204, 204));
         lastNameField.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        lastNameField.setForeground(new java.awt.Color(51, 51, 51));
 
         jLabel13.setFont(new java.awt.Font("Inter Light", 0, 12)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(153, 0, 153));
@@ -381,6 +406,11 @@ public class userLogIn extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel11))
                     .addGroup(registerPanelLayout.createSequentialGroup()
+                        .addGap(104, 104, 104)
+                        .addComponent(signUpButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel13))
+                    .addGroup(registerPanelLayout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(mobileNumberField)
@@ -408,13 +438,7 @@ public class userLogIn extends javax.swing.JFrame {
                                     .addGroup(registerPanelLayout.createSequentialGroup()
                                         .addComponent(jLabel12)
                                         .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(lastNameField)))))
-                    .addGroup(registerPanelLayout.createSequentialGroup()
-                        .addGap(104, 104, 104)
-                        .addComponent(signUpButton))
-                    .addGroup(registerPanelLayout.createSequentialGroup()
-                        .addGap(124, 124, 124)
-                        .addComponent(jLabel13)))
+                                    .addComponent(lastNameField))))))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         registerPanelLayout.setVerticalGroup(
@@ -460,10 +484,10 @@ public class userLogIn extends javax.swing.JFrame {
                     .addComponent(mobileNumberField2)
                     .addComponent(newRePassField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(signUpButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel13)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(signUpButton)
+                    .addComponent(jLabel13))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         cardPanel.add(registerPanel, "card3");
@@ -629,7 +653,7 @@ public class userLogIn extends javax.swing.JFrame {
     private void userPassFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_userPassFieldFocusGained
         if (userPassField.getText().equals("password")) {
             userPassField.setText("");
-            userPassField.setForeground(Color.BLACK);
+            userPassField.setForeground(new Color(51,51,51));
         }
     }//GEN-LAST:event_userPassFieldFocusGained
 
@@ -637,14 +661,13 @@ public class userLogIn extends javax.swing.JFrame {
         if (usernameField.getText().equals("Input Username/Email") || usernameField.getText().equals("")) {
             usernameField.setForeground(new Color(102, 102, 102));
             usernameField.setText("Input Username/Email");
-
         }
     }//GEN-LAST:event_usernameFieldFocusLost
 
     private void usernameFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_usernameFieldFocusGained
         if (usernameField.getText().equals("Input Username/Email")) {
             usernameField.setText("");
-            usernameField.setForeground(Color.BLACK);
+            usernameField.setForeground(new Color(51,51,51));
         }
     }//GEN-LAST:event_usernameFieldFocusGained
 
@@ -699,7 +722,7 @@ public class userLogIn extends javax.swing.JFrame {
             prep.setString(7, regLocal);    
             
             if(regPass.equals(regRePass)){
-                int k = prep.executeUpdate();
+                prep.executeUpdate();
                 JOptionPane.showMessageDialog(null, "You are now Signed-Up!");
                 changeCard(logIn);
             } else {
@@ -757,31 +780,11 @@ public class userLogIn extends javax.swing.JFrame {
     }
 
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel /
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        / If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(userLogIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(userLogIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(userLogIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(userLogIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+       try {
+            UIManager.setLookAndFeel(new FlatMacLightLaf());
+        } catch (UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(FlashScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new userLogIn().setVisible(true);

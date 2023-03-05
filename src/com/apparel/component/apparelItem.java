@@ -73,23 +73,29 @@ public class apparelItem extends javax.swing.JPanel {
         lbSize = new javax.swing.JLabel();
         lbQuantity = new javax.swing.JLabel();
 
-        setForeground(new java.awt.Color(153, 0, 153));
+        setBackground(new java.awt.Color(153, 153, 153));
+        setForeground(new java.awt.Color(204, 204, 204));
 
         lbItemName.setFont(new java.awt.Font("Inter ExtraBold", 0, 18)); // NOI18N
+        lbItemName.setForeground(new java.awt.Color(51, 51, 51));
         lbItemName.setText("ITEM NAME");
 
         pic.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/items/bagProducts/Adidas by Stella McCartney  Gym Sack.png"))); // NOI18N
 
         lbBrand.setFont(new java.awt.Font("Inter SemiBold", 0, 14)); // NOI18N
+        lbBrand.setForeground(new java.awt.Color(51, 51, 51));
         lbBrand.setText("BRAND");
 
         lbPrice.setFont(new java.awt.Font("Inter SemiBold", 0, 18)); // NOI18N
+        lbPrice.setForeground(new java.awt.Color(51, 51, 51));
         lbPrice.setText("PHP 0.00");
 
         lbDescription.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        lbDescription.setForeground(new java.awt.Color(51, 51, 51));
         lbDescription.setText("<html><body><p align='justify'>  Description </p></body></html>");
 
         jLabel1.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(51, 51, 51));
         jLabel1.setText("BRAND:");
 
         lbSize.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
