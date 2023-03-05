@@ -2678,7 +2678,7 @@ public class mainInterface extends javax.swing.JFrame {
 
         jLabel47.setFont(new java.awt.Font("Inter Medium", 0, 12)); // NOI18N
         jLabel47.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel47.setText("Estimate Recive Date:");
+        jLabel47.setText("Estimate Recieve Date:");
         jPanel4.add(jLabel47, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, -1, -1));
 
         tableOrderDate.setFont(new java.awt.Font("Inter SemiBold", 0, 12)); // NOI18N

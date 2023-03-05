@@ -39,7 +39,7 @@ public class apparelOrder extends javax.swing.JPanel {
         lbDetails.setText("<html><body><p align='justify'>"+data.getDescription()+"</p></body></html>");
         lbOrderDate.setText("Date Ordered: " + data.getTimeOrder());
         lbestDateRecieve.setText("Estimated Order Recieved: " + data.getEstRecieveDate());
-        lbTotalPayment.setText("PHP " + data.getTotalPrice());
+        lbTotalPayment.setText(data.getTotalPrice());
     }
     
 @Override
