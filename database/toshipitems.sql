@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 04, 2023 at 07:54 PM
+-- Generation Time: Mar 05, 2023 at 06:20 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -53,9 +53,11 @@ CREATE TABLE `toshipitems` (
 --
 
 INSERT INTO `toshipitems` (`email`, `firstname`, `lastname`, `size`, `quantity`, `product`, `description`, `price`, `totalPrice`, `brand`, `icon`, `timeOrder`, `estRecieveDate`, `username`, `address`, `mobileNumber`, `paymentMethod`, `status`) VALUES
-('jmirafuentes47@gmail.com', 'Jonniel', 'Mirafuentes', 'M', '1', 'Sweater', 'Plant Flea Market L/S', 850, 'PHP 1,700 .00', 'Nike x Cactus', '/com/apparel/items/shirt/Nike x Cactus Plant Flea Market  T-shirt.jpeg', '03/04/2023', '03/11/2023', 'jonniel123', 'Purok 9, Lower Lacson, Calinan Davao City', '09982066249', 'Cash On Delivery', 'Recieved'),
-('jmirafuentes47@gmail.com', 'Jonniel', 'Mirafuentes', 'XL', '1', 'Cargo Pants', 'Cotton Linen Cargo Pants', 750, 'PHP 1,700 .00', 'Louis Vuitton', '/com/apparel/items/shirt/LV Cotton Linen Cargo Pants.png', '03/04/2023', '03/11/2023', 'jonniel123', 'Purok 9, Lower Lacson, Calinan Davao City', '09982066249', 'Cash On Delivery', 'Recieved'),
-('jmirafuentes47@gmail.com', 'Jonniel', 'Mirafuentes', 'S', '1', 'Jacket', 'Windrunner Jacket', 900, 'PHP 1,000 .00', 'Nike x Stussy', '/com/apparel/items/shirt/Nike x Stussy Windrunner Jacket.png', '03/04/2023', '03/11/2023', 'jonniel123', 'Purok 9, Lower Lacson, Calinan Davao City', '09982066249', 'Cash On Delivery', 'Recieved');
+('testing', 'Testimony', 'tests', 'S,  ,  ', '1, 1, 1', 'Sunglasses', 'Nike x Cactus Sweater 1x Size: S, Uniqlo Daily Bag 1x Size:  , Gentle Monster Sunglasses 1x Size:  ', 400, 'PHP 2,100 .00', 'Gentle Monster', '/com/apparel/items/accessories/Gentle Monster  Rococo 01.png', '03/05/2023 10:42:32', '03/12/2023', 'test', 'testing', '09982066248', 'Cash On Delivery', 'Recieved'),
+('testing', 'Testimony', 'tests', 'S, M', '1, 1', 'Jacket', 'Urban Outfitters Hoodies 1x Size: S, Nike x Stussy Jacket 1x Size: M', 900, 'PHP 1,450 .00', 'Nike x Stussy', '/com/apparel/items/shirt/Nike x Stussy Windrunner Jacket.png', '03/05/2023 10:59:39', '03/12/2023', 'test', 'testing', '09982066248', 'Cash On Delivery', 'To Recieve'),
+('testing', 'Testimony', 'tests', ' ', '1', 'Daily Bag', 'Celine Daily Bag 1x Size:  ', 475, 'PHP 575 .00', 'Celine', '/com/apparel/items/bagProducts/Celine Smooth Calfskin Backpack - Black.png', '03/05/2023 10:59:54', '03/12/2023', 'test', 'testing', '09982066248', 'Cash On Delivery', 'To Ship'),
+('jmirafuentes47@gmail.com', 'Jonniel', 'Mirafuentes', 'M, L, XL', '1, 1, 1', 'Cargo Trousers', '99 Percentis Hoodies 1x Size: M, Nike Hoodies 1x Size: L, H%M Cargo Trousers 1x Size: XL', 850, 'PHP 2,850 .00', 'H%M', '/com/apparel/items/shirt/H_M Wide cargo trousers.png', '03/05/2023 11:03:02', '03/12/2023', 'jonniel123', 'Purok 9, Lower Lacson, Calinan Davao City', '09982066249', 'Cash On Delivery', 'Recieved'),
+('jmirafuentes47@gmail.com', 'Jonniel', 'Mirafuentes', 'S,  , 36', '1, 1, 2', 'Leather Shoes', 'Nike x Stussy Jacket 1x Size: S, Playboy Bunny Daily Bag 1x Size:  , Gucci Leather Shoes 2x Size: 36', 3250, 'PHP 8,100 .00', 'Gucci', '/com/apparel/items/footwear/Gucci  Lace Up Shoes.png', '03/05/2023 11:24:59', '03/12/2023', 'jonniel123', 'Purok 9, Lower Lacson, Calinan Davao City', '09982066249', 'Cash On Delivery', 'Recieved');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
