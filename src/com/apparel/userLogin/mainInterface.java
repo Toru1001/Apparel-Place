@@ -43,7 +43,7 @@ import javax.swing.plaf.IconUIResource;
 import javax.swing.table.DefaultTableModel;
 
 public class mainInterface extends javax.swing.JFrame {
-    userLogIn login = new userLogIn();
+    userLogIn login = new userLogIn();  
     selectedItem select = new selectedItem();
     String next;
     int xMouse, yMouse;
@@ -247,7 +247,6 @@ public class mainInterface extends javax.swing.JFrame {
         
         public void showToShip(){              // Displays products to "to Ship" panel from database
         try {
-            
             login.prep = login.connect.prepareStatement("SELECT * FROM toshipitems where email = '"+login.email+"' AND status = 'To Ship'");
             login.rst = login.prep.executeQuery();
             while(login.rst.next()){
@@ -269,6 +268,7 @@ public class mainInterface extends javax.swing.JFrame {
             String estRecieveDate = login.rst.getString("estRecieveDate");
             String status = login.rst.getString("status");
             select.setFinderLocation(timeOrder);
+            userorderUpdate.setVisible(false);
             addItemtoShip(new shipDetails(email, firstname, lastname,address, mobileNumber, paymentMethod, size, quantity, product,description, price, totalPrice, brand, new ImageIcon(getClass().getResource(icon)),timeOrder, estRecieveDate, status));
             }
             
@@ -279,7 +279,7 @@ public class mainInterface extends javax.swing.JFrame {
         
         public void showToRecieve(){        // Displays products to "to Recieve" panel from database
         try {
-            login.prep = login.connect.prepareStatement("SELECT * FROM toshipitems where email = '"+login.email+"' AND status = 'To Recieve'");
+            login.prep = login.connect.prepareStatement("SELECT * FROM toshipitems where email = '"+login.email+"' AND status = 'To Recieve' OR status = 'Waiting Seller Confirmation'");
             login.rst = login.prep.executeQuery();
             while(login.rst.next()){
             String email = login.rst.getString("email");
@@ -299,6 +299,7 @@ public class mainInterface extends javax.swing.JFrame {
             String timeOrder = login.rst.getString("timeOrder");
             String estRecieveDate = login.rst.getString("estRecieveDate");
             String status = login.rst.getString("status");
+            userorderUpdate.setVisible(false);
             addItemtoRecieve(new shipDetails(email, firstname, lastname,address, mobileNumber, paymentMethod, size, quantity, product,description, price, totalPrice, brand, new ImageIcon(getClass().getResource(icon)),timeOrder, estRecieveDate, status));
             }
         } catch (SQLException ex) {
@@ -328,6 +329,7 @@ public class mainInterface extends javax.swing.JFrame {
             String timeOrder = login.rst.getString("timeOrder");
             String estRecieveDate = login.rst.getString("estRecieveDate");
             String status = login.rst.getString("status");
+            userorderUpdate.setVisible(false);
             addItemRecieved(new shipDetails(email, firstname, lastname,address, mobileNumber, paymentMethod, size, quantity, product,description, price, totalPrice, brand, new ImageIcon(getClass().getResource(icon)),timeOrder, estRecieveDate, status));
             }
         } catch (SQLException ex) {
@@ -430,10 +432,13 @@ public class mainInterface extends javax.swing.JFrame {
                   localAddress.setText(data.getAddress());
                   orderDate.setText("Contact Number: " + data.getMobileNumber());
                   paymentMethod.setText(data.getPaymentMethod());
-                  orderDate.setText("Order Date: " + data.getTimeOrder());
+                  orderDate.setText(data.getTimeOrder());
                   estimateDate.setText("Estimated Date of Arrival: " + data.getEstRecieveDate());
                   mobileNumber.setText("Mobile Number: " + data.getMobileNumber());
                   status.setText("Status: " + data.getStatus());
+                  if(data.getStatus().equals("To Recieve")){
+                  userorderUpdate.setVisible(true);
+                  }
                 }
             }
         });
@@ -455,10 +460,13 @@ public class mainInterface extends javax.swing.JFrame {
                   localAddress.setText(data.getAddress());
                   orderDate.setText("Contact Number: " + data.getMobileNumber());
                   paymentMethod.setText(data.getPaymentMethod());
-                  orderDate.setText("Order Date: " + data.getTimeOrder());
+                  orderDate.setText(data.getTimeOrder());
                   estimateDate.setText("Estimated Date of Arrival: " + data.getEstRecieveDate());
                   mobileNumber.setText("Mobile Number: " + data.getMobileNumber());
                   status.setText("Status: " + data.getStatus());
+                  if(data.getStatus().equals("Recieved")){
+                  userorderUpdate.setVisible(false);
+                  }
                 }
             }
         });
@@ -480,10 +488,13 @@ public class mainInterface extends javax.swing.JFrame {
                   localAddress.setText(data.getAddress());
                   orderDate.setText("Contact Number: " + data.getMobileNumber());
                   paymentMethod.setText(data.getPaymentMethod());
-                  orderDate.setText("Order Date: " + data.getTimeOrder());
+                  orderDate.setText(data.getTimeOrder());
                   estimateDate.setText("Estimated Date of Arrival: " + data.getEstRecieveDate());
                   mobileNumber.setText("Mobile Number: " + data.getMobileNumber());
                   status.setText("Status: " + data.getStatus());
+                  if(data.getStatus().equals("To Ship")){
+                  userorderUpdate.setVisible(false);
+                  }
                 }
             }
         });
@@ -839,8 +850,10 @@ public class mainInterface extends javax.swing.JFrame {
         paymentMethod = new javax.swing.JLabel();
         text1 = new javax.swing.JLabel();
         estimateDate = new javax.swing.JLabel();
+        orderDate1 = new javax.swing.JLabel();
         orderDate = new javax.swing.JLabel();
         status = new javax.swing.JLabel();
+        userorderUpdate = new javax.swing.JButton();
         pendingOrders = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         pendingOrderTable = new javax.swing.JTable();
@@ -2557,15 +2570,36 @@ public class mainInterface extends javax.swing.JFrame {
         estimateDate.setText("Estimated Date of Arrival:");
         myOrders.add(estimateDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 500, 310, -1));
 
+        orderDate1.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
+        orderDate1.setForeground(new java.awt.Color(51, 51, 51));
+        orderDate1.setText("Order Date:");
+        myOrders.add(orderDate1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 480, 70, -1));
+
         orderDate.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
         orderDate.setForeground(new java.awt.Color(51, 51, 51));
-        orderDate.setText("Order Date:");
-        myOrders.add(orderDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 480, 290, -1));
+        orderDate.setText("Order Date");
+        myOrders.add(orderDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 480, 210, -1));
 
         status.setFont(new java.awt.Font("Inter SemiBold", 0, 14)); // NOI18N
         status.setForeground(new java.awt.Color(204, 51, 255));
         status.setText("Status:");
         myOrders.add(status, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 530, -1, -1));
+
+        userorderUpdate.setBackground(new java.awt.Color(204, 51, 255));
+        userorderUpdate.setFont(new java.awt.Font("Inter SemiBold", 0, 14)); // NOI18N
+        userorderUpdate.setForeground(new java.awt.Color(255, 255, 255));
+        userorderUpdate.setText("ORDER RECIEVED");
+        userorderUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                userorderUpdateMouseClicked(evt);
+            }
+        });
+        userorderUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                userorderUpdateActionPerformed(evt);
+            }
+        });
+        myOrders.add(userorderUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 555, 180, 30));
 
         cardPanel.add(myOrders, "card7");
 
@@ -3500,6 +3534,7 @@ public class mainInterface extends javax.swing.JFrame {
 
     private void myOrdersButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myOrdersButtonMouseClicked
         changeCard(myOrders);
+        userorderUpdate.setVisible(false);
         changeOrderCard(toShipPanel);
         clearAllProducts();
         showToShip();
@@ -3542,7 +3577,7 @@ public class mainInterface extends javax.swing.JFrame {
 
     private void updateStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateStatusActionPerformed
         try {
-            login.prep = login.connect.prepareStatement("UPDATE toshipitems SET status = 'To Recieve' WHERE totalPrice = '" +tablePrice.getText()+ "' AND email = '"+tableEmail.getText()+"';");
+            login.prep = login.connect.prepareStatement("UPDATE toshipitems SET status = 'To Recieve' WHERE totalPrice = '" +tablePrice.getText()+ "' AND email = '"+tableEmail.getText()+"' AND timeOrder = '"+ tableOrderDate.getText() +"';");
             login.prep.executeUpdate();
             updateTable(pendingOrderTable);
           
@@ -3553,7 +3588,7 @@ public class mainInterface extends javax.swing.JFrame {
 
     private void updateStatusRecieveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateStatusRecieveActionPerformed
         try {
-            login.prep = login.connect.prepareStatement("UPDATE toshipitems SET status = 'Recieved' WHERE totalPrice = '" +tablePrice.getText()+ "' AND email = '"+tableEmail.getText()+"';");
+            login.prep = login.connect.prepareStatement("UPDATE toshipitems SET status = 'Recieved' WHERE totalPrice = '" +tablePrice.getText()+ "' AND email = '"+tableEmail.getText()+"' AND timeOrder = '"+ tableOrderDate.getText() +"';");
             login.prep.executeUpdate();
             updateTable(pendingOrderTable);
             updateStatusRecieve.setVisible(false);
@@ -3569,7 +3604,7 @@ public class mainInterface extends javax.swing.JFrame {
                 updateStatus.setVisible(true);
                 updateStatusRecieve.setVisible(false);
                 tableStatus.setForeground(new Color(102,0,0));
-            } else if(tableStatus.getText().equals("To Recieve")){
+            } else if(tableStatus.getText().equals("Waiting Seller Confirmation")){
                 updateStatus.setVisible(false);
                 updateStatusRecieve.setVisible(true);
                 tableStatus.setForeground(new Color(255,102,51));
@@ -3677,6 +3712,30 @@ public class mainInterface extends javax.swing.JFrame {
         messageButton.setBackground(new Color(204,204,204));
         pictureBox23.setImage(new javax.swing.ImageIcon(getClass().getResource("/com/apparel/mainUI/utilities/icons8_forward_message_30px.png")));
     }//GEN-LAST:event_messageButtonMouseExited
+
+    private void userorderUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userorderUpdateMouseClicked
+        try {
+            login.prep = login.connect.prepareStatement("UPDATE toshipitems SET status = 'Waiting Seller Confirmation' WHERE timeOrder = '" + orderDate.getText() + "' AND email = '"+login.email+"';");
+            login.prep.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(mainInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_userorderUpdateMouseClicked
+
+    private void userorderUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userorderUpdateActionPerformed
+        try {
+            login.prep = login.connect.prepareStatement("UPDATE toshipitems SET status = 'Waiting Seller Confirmation' WHERE timeOrder = '" + orderDate.getText() + "' AND email = '"+login.email+"';");
+            login.prep.executeUpdate();
+            myOrders.repaint();
+            myOrders.revalidate();
+            changeOrderCard(toRecievePanel);
+            clearAllProducts();
+            showToRecieve();
+            userorderUpdate.setVisible(false);
+        } catch (SQLException ex) {
+            Logger.getLogger(mainInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_userorderUpdateActionPerformed
 
    
     
@@ -3835,6 +3894,7 @@ public class mainInterface extends javax.swing.JFrame {
     private javax.swing.JLabel note4;
     private javax.swing.JLabel note5;
     private javax.swing.JLabel orderDate;
+    private javax.swing.JLabel orderDate1;
     private com.apparel.model.PanelItem panelItem1;
     private com.apparel.model.PanelItem panelItem2;
     private com.apparel.model.PanelItem panelItem3;
@@ -3909,6 +3969,7 @@ public class mainInterface extends javax.swing.JFrame {
     private javax.swing.JPanel userMessage;
     private javax.swing.JTextField userName;
     private javax.swing.JLabel userid;
+    private javax.swing.JButton userorderUpdate;
     private javax.swing.JLabel users_firstname;
     private javax.swing.JLabel welcomeText;
     // End of variables declaration//GEN-END:variables
