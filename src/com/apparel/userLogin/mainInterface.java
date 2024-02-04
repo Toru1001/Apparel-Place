@@ -45,8 +45,8 @@ import javax.swing.table.DefaultTableModel;
 public class mainInterface extends javax.swing.JFrame {
     userLogIn login = new userLogIn();  
     selectedItem select = new selectedItem();
-    String next;
     int xMouse, yMouse;
+    String next;
     
         public void changeCard(Component Card) {    // Changes to selected panel
         cardPanel.removeAll();
@@ -419,6 +419,34 @@ public class mainInterface extends javax.swing.JFrame {
         panelItem2.revalidate();
     }
         
+         public void addItemtoShip(shipDetails data){            //  auto generate to ship products to the item panel 
+        apparelOrder item = new apparelOrder();
+        item.setData(data);
+        item.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mousePressed(MouseEvent me){
+                if (SwingUtilities.isLeftMouseButton(me)){
+                  productDetails.setText("<html><body><p align='justify'>"+data.getDescription()+"</p></body></html>");
+                  productTotalPrice.setText(data.getTotalPrice());
+                  fullName.setText(data.getFirstname() + " " + data.getLastname());
+                  localAddress.setText(data.getAddress());
+                  orderDate.setText("Contact Number: " + data.getMobileNumber());
+                  paymentMethod.setText(data.getPaymentMethod());
+                  orderDate.setText(data.getTimeOrder());
+                  estimateDate.setText("Estimated Date of Arrival: " + data.getEstRecieveDate());
+                  mobileNumber.setText("Mobile Number: " + data.getMobileNumber());
+                  status.setText("Status: " + data.getStatus());
+                  if(data.getStatus().equals("To Ship")){
+                  userorderUpdate.setVisible(false);
+                  }
+                }
+            }
+        });
+        panelItem3.add(item);
+        panelItem3.repaint();
+        panelItem3.revalidate();
+    }
+         
         public void addItemtoRecieve(shipDetails data){             //  auto generate to recieve products to the item panel
         apparelOrder item = new apparelOrder();
         item.setData(data);
@@ -474,34 +502,6 @@ public class mainInterface extends javax.swing.JFrame {
         panelItem5.repaint();
         panelItem5.revalidate();
     }
-    
-        public void addItemtoShip(shipDetails data){            //  auto generate to ship products to the item panel 
-        apparelOrder item = new apparelOrder();
-        item.setData(data);
-        item.addMouseListener(new MouseAdapter(){
-            @Override
-            public void mousePressed(MouseEvent me){
-                if (SwingUtilities.isLeftMouseButton(me)){
-                  productDetails.setText("<html><body><p align='justify'>"+data.getDescription()+"</p></body></html>");
-                  productTotalPrice.setText(data.getTotalPrice());
-                  fullName.setText(data.getFirstname() + " " + data.getLastname());
-                  localAddress.setText(data.getAddress());
-                  orderDate.setText("Contact Number: " + data.getMobileNumber());
-                  paymentMethod.setText(data.getPaymentMethod());
-                  orderDate.setText(data.getTimeOrder());
-                  estimateDate.setText("Estimated Date of Arrival: " + data.getEstRecieveDate());
-                  mobileNumber.setText("Mobile Number: " + data.getMobileNumber());
-                  status.setText("Status: " + data.getStatus());
-                  if(data.getStatus().equals("To Ship")){
-                  userorderUpdate.setVisible(false);
-                  }
-                }
-            }
-        });
-        panelItem3.add(item);
-        panelItem3.repaint();
-        panelItem3.revalidate();
-    }
      
         public void selectedItems(){            // sets the selected data to the side panel of items
         pic.setImage(select.getImg());
@@ -528,7 +528,6 @@ public class mainInterface extends javax.swing.JFrame {
             ArrayList<String> size = new ArrayList<>();
             ArrayList<String> quantity = new ArrayList<>();
             while(login.rst.next()){
-                
                 select.setItemSize(login.rst.getString("size"));
                 select.setItemQuantity(login.rst.getString("quantity"));
                 select.setItemName(login.rst.getString("product"));
@@ -683,9 +682,6 @@ public class mainInterface extends javax.swing.JFrame {
             }
         }
         
-        
-        
-        
      public mainInterface() {
         initComponents();
         showUser(); // With other components
@@ -695,7 +691,6 @@ public class mainInterface extends javax.swing.JFrame {
             myOrdersButton.setVisible(false);
             pendingOrdersButtton.setVisible(true);
         }
-        
     }
     
    
@@ -1835,9 +1830,9 @@ public class mainInterface extends javax.swing.JFrame {
         });
 
         saveEdit.setBackground(new java.awt.Color(204, 204, 204));
-        saveEdit.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        saveEdit.setForeground(new java.awt.Color(0, 0, 0));
-        saveEdit.setText("Save");
+        saveEdit.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 1, 48)); // NOI18N
+        saveEdit.setForeground(new java.awt.Color(0, 0, 153));
+        saveEdit.setText("•");
         saveEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveEditActionPerformed(evt);

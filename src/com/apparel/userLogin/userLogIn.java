@@ -1,6 +1,4 @@
 package com.apparel.userLogin;
-
-
 import com.apparel.model.userInfo;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
@@ -27,16 +25,19 @@ public class userLogIn extends javax.swing.JFrame {
     
     public void Connect(){
         
+        
+            
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/apparel_accounts", "root", "");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(userLogIn.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/apparel_accounts", "root", "");
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(userLogIn.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(userLogIn.class.getName()).log(Level.SEVERE, null, ex);
         }
-               
-}
+        }
     
     public userLogIn() {
         initComponents();
@@ -638,6 +639,7 @@ public class userLogIn extends javax.swing.JFrame {
             Logger.getLogger(userLogIn.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         loginAction();
     }//GEN-LAST:event_jButton1ActionPerformed
